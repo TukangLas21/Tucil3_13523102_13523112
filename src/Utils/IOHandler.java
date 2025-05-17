@@ -1,8 +1,9 @@
 package Utils;
 
-import Game.Coordinate;
 import Game.BoardState;
+import Game.Coordinate;
 import Game.Piece;
+import Game.Move;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -33,7 +34,7 @@ public class IOHandler {
     }   
 
     // konversi input file ke dalam papan
-    public static void convertInput(File file, BoardState papan) {
+    public static BoardState convertInput(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
 
@@ -70,7 +71,7 @@ public class IOHandler {
             Coordinate exitCoordinate = convertExitCoordinate(tempBoard);
 
             // get exit side
-            int exitSide = getExitSide(tempBoard);
+            Move.Direction exitSide = getExitSide(tempBoard);
 
             // trim board
             char[][] newBoard = trimBoard(tempBoard, exitSide);
@@ -78,9 +79,10 @@ public class IOHandler {
             // convert pieces
             List<Piece> pieces = convertPieces(newBoard, numPieces);
 
-            // isi Papan
+            return new BoardState(row, col, newBoard, pieces, exitCoordinate, exitSide, getPieceByName('P', pieces));
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
+            return null;
         }
     }
 
@@ -124,15 +126,15 @@ public class IOHandler {
     // dapatkan koordinat titik keluar papan
     public static Coordinate convertExitCoordinate(char[][] fileBoard) {
         Coordinate exitCoordinate = null;
-        int exitSide = getExitSide(fileBoard);
+        Move.Direction exitSide = getExitSide(fileBoard);
         for (int i = 0; i < fileBoard.length; i++) {
             for (int j = 0; j < fileBoard[i].length; j++) {
                 if (fileBoard[i][j] == 'K') {
                     switch (exitSide) {
-                        case 1 -> exitCoordinate = new Coordinate(i, j+1); // atas
-                        case 2 -> exitCoordinate = new Coordinate(i+1, j+1); // bawah
-                        case 3 -> exitCoordinate = new Coordinate(i+1, j); // kiri
-                        case 4 -> exitCoordinate = new Coordinate(i+1, j+1); // kanan
+                        case UP -> exitCoordinate = new Coordinate(i+1, j); // atas
+                        case DOWN -> exitCoordinate = new Coordinate(i-1, j); // bawah
+                        case LEFT -> exitCoordinate = new Coordinate(i, j+1); // kiri
+                        case RIGHT -> exitCoordinate = new Coordinate(i, j-1); // kanan
                     }
                 }
             }
@@ -141,51 +143,51 @@ public class IOHandler {
     }
 
     // dapatkan sisi keluar dari papan
-    public static int getExitSide(char[][] fileBoard) {
+    public static Move.Direction getExitSide(char[][] fileBoard) {
         for (int i = 0; i < fileBoard.length; i++) {
             for (int j = 0; j < fileBoard[i].length; j++) {
                 if (fileBoard[i][j] == 'K') {
                     if (i == 0) {
-                        return 1; // atas
+                        return Move.Direction.UP;
                     } else if (i == fileBoard.length - 1) {
-                        return 2; // bawah
+                        return Move.Direction.DOWN;
                     } else if (j == 0) {
-                        return 3; // kiri
+                        return Move.Direction.LEFT;
                     } else if (j == fileBoard[i].length - 1) {
-                        return 4; // kanan
+                        return Move.Direction.RIGHT;
                     }
                 }
             }
         }
-        return 0; // tidak ditemukan
+        return null;
     }
 
     // trim papan sesuai dengan sisi keluar
-    public static char[][] trimBoard(char[][] fileBoard, int exitSide) {
+    public static char[][] trimBoard(char[][] fileBoard, Move.Direction exitSide) {
         char[][] newBoard = new char[fileBoard.length - 1][fileBoard[0].length - 1];
         switch (exitSide) {
-            case 1 -> {
+            case UP -> {
                 // trim row atas
                 for (int i = 1; i < fileBoard.length; i++) {
                     System.arraycopy(fileBoard[i], 0, newBoard[i - 1], 0, fileBoard[i].length);
                 }
                 break;
             } 
-            case 2 -> {
+            case DOWN -> {
                 // trim row bawah
                 for (int i = 0; i < fileBoard.length - 1; i++) {
                     System.arraycopy(fileBoard[i], 0, newBoard[i], 0, fileBoard[i].length);
                 }
                 break;
             }
-            case 3 -> {
+            case LEFT -> {
                 // trim kolom kiri
                 for (int i = 0; i < fileBoard.length; i++) {
                     System.arraycopy(fileBoard[i], 1, newBoard[i], 0, fileBoard[i].length - 1);
                 }
                 break;
             }
-            case 4 -> {
+            case RIGHT -> {
                 // trim kolom kanan
                 for (int i = 0; i < fileBoard.length; i++) {
                     System.arraycopy(fileBoard[i], 0, newBoard[i], 0, fileBoard[i].length - 1);
@@ -211,5 +213,14 @@ public class IOHandler {
         }
 
         return choice;
+    }
+
+    public static Piece getPieceByName(char name, List<Piece> pieces) {
+        for (Piece piece : pieces) {
+            if (piece.getName() == name) {
+                return piece;
+            }
+        }
+        return null;
     }
 }

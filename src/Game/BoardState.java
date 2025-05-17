@@ -1,6 +1,7 @@
 package Game;
 
 import Utils.Utils;
+import java.util.ArrayList;
 import java.util.List;
 
 /* Kelas yang merepresentasikan state papan pada permainan */
@@ -9,6 +10,7 @@ public class BoardState {
     private int col; 
     private char[][] board; 
     private Coordinate exitCoordinate; // koordinat keluar
+    private Move.Direction exitDirection; // arah koordinat keluar
     private List<Piece> pieces; // list piece
     private Piece primaryPiece; // piece utama
     private int value = calcValue(); // nilai heuristik
@@ -19,14 +21,16 @@ public class BoardState {
         this.col = 0;
         this.board = null;
         this.exitCoordinate = null;
+        this.exitDirection = null;
         this.pieces = null;
         this.primaryPiece = null;
     }
-    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece) {
+    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Move.Direction exitDirection, Piece primaryPiece) {
         this.row = row;
         this.col = col;
         this.board = board;
         this.exitCoordinate = exitCoordinate;
+        this.exitDirection = exitDirection;
         this.pieces = pieces;
         this.primaryPiece = primaryPiece;
     }
@@ -62,7 +66,7 @@ public class BoardState {
 
         char[][] newBoard = buildBoard(this.pieces);
 
-        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece);
+        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.exitDirection, this.primaryPiece);
     }
 
     // membuat board dari list of pieces
@@ -124,4 +128,78 @@ public class BoardState {
         }
     }
 
+    public List<BoardState> getPossibleMoves() {
+        List<BoardState> possibleMoves = new ArrayList<>();
+        for (Piece piece : pieces) {
+            if (piece.isHorizontal()) {
+                for (Move.Direction direction : new Move.Direction[]{Move.Direction.LEFT, Move.Direction.RIGHT}) {
+                    BoardState newState = movePiece(piece, direction);
+                    if (newState != null) {
+                        possibleMoves.add(newState);
+                    }
+                }
+            } else {
+                for (Move.Direction direction : new Move.Direction[]{Move.Direction.UP, Move.Direction.DOWN}) {
+                    BoardState newState = movePiece(piece, direction);
+                    if (newState != null) {
+                        possibleMoves.add(newState);
+                    }
+                }
+            }
+        }
+        return possibleMoves;
+    }
+
+    // Getter
+    public int getRow() {
+        return row;
+    }
+    public int getCol() {
+        return col;
+    }
+    public char[][] getBoard() {
+        return board;
+    }
+    public Coordinate getExitCoordinate() {
+        return exitCoordinate;
+    }
+    public List<Piece> getPieces() {
+        return pieces;
+    }
+    public Piece getPrimaryPiece() {
+        return primaryPiece;
+    }
+    public int getValue() {
+        return value;
+    }
+    public Move.Direction getExitDirection() {
+        return exitDirection;
+    }
+
+    // Setter
+    public void setRow(int row) {
+        this.row = row;
+    }
+    public void setCol(int col) {
+        this.col = col;
+    }
+    public void setBoard(char[][] board) {
+        this.board = board;
+    }
+    public void setExitCoordinate(Coordinate exitCoordinate) {
+        this.exitCoordinate = exitCoordinate;
+    }
+    public void setPieces(List<Piece> pieces) {
+        this.pieces = pieces;
+    }
+    public void setPrimaryPiece(Piece primaryPiece) {
+        this.primaryPiece = primaryPiece;
+    }
+    public void setValue(int value) {
+        this.value = value;
+    }
+    public void setExitDirection(Move.Direction exitDirection) {
+        this.exitDirection = exitDirection;
+    }
+    
 }
