@@ -58,4 +58,14 @@ public class Piece {
             coordinate.moveTo(shift);
         }
     }
+    public void moveDirection(Move.Direction direction) {
+        for (Coordinate coordinate : coordinates) {
+            switch (direction) {
+                case UP -> coordinate.shiftRow(-1);
+                case DOWN -> coordinate.shiftRow(1);
+                case LEFT -> coordinate.shiftCol(-1);
+                case RIGHT -> coordinate.shiftCol(1);
+            }
+        }
+    }
 }

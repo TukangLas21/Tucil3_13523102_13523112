@@ -43,4 +43,12 @@ public class Coordinate {
         this.col += colShift;
     }
 
+    // override methode equals
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Coordinate that = (Coordinate) obj;
+        return row == that.row && col == that.col;
+    }
 }

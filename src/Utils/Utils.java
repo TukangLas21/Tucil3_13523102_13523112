@@ -39,4 +39,14 @@ public class Utils {
 
         return newBoard;
     }
+
+    // mengecek apakah piece menempati koordinat
+    public static boolean isPieceOnCoordinate(Piece piece, Coordinate coordinate) {
+        for (Coordinate coord : piece.getCoordinates()) {
+            if (coord.equals(coordinate)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

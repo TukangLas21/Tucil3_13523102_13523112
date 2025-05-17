@@ -1,7 +1,7 @@
 package Utils;
 
 import Game.Coordinate;
-import Game.Papan;
+import Game.BoardState;
 import Game.Piece;
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +33,7 @@ public class IOHandler {
     }   
 
     // konversi input file ke dalam papan
-    public static void convertInput(File file, Papan papan) {
+    public static void convertInput(File file, BoardState papan) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
 
@@ -79,13 +79,6 @@ public class IOHandler {
             List<Piece> pieces = convertPieces(newBoard, numPieces);
 
             // isi Papan
-            papan.setTotalRow(row+2);
-            papan.setTotalCol(col+2);
-            papan.setEffRow(row);
-            papan.setEffCol(col);
-            papan.setPieces(pieces);
-            papan.setExitCoordinate(exitCoordinate);
-            papan.setBoard(Utils.buildNewBoard(newBoard));
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
