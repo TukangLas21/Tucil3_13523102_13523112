@@ -1,20 +1,23 @@
 package Utils;
 
+import Game.Coordinate;
 import Game.Papan;
 import Game.Piece;
-import Game.Coordinate;
-import java.io.File;
-import java.util.Scanner;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-/*  */
+/* Kelas statik untuk handle input dan output */
 public class IOHandler {
     private static final Scanner scanner = new Scanner(System.in);
 
+    // TODO: Validasi input
+
+    // baca file path
     public static File readInputFile() {
         System.out.println("Masukkan nama file input (pastikan berada di dalam folder test/problem): ");
         String fileName = scanner.nextLine();
@@ -29,8 +32,8 @@ public class IOHandler {
         return file;
     }   
 
+    // konversi input file ke dalam papan
     public static void convertInput(File file, Papan papan) {
-        // TODO: Implementasi konversi input file ke dalam format yang sesuai
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
 
@@ -48,38 +51,90 @@ public class IOHandler {
             line = reader.readLine();
 
             // membaca konfigurasi papan
-            String[][] tempBoard = new String[row+1][col+1];
+            char[][] tempBoard = new char[row+1][col+1];
             int tempRow = 0;
             while (line != null) {
                 String[] linePieces = line.split("");
                 for (int i = 0; i < linePieces.length; i++) {
                     if (linePieces[i].equals(" ")) {
-                        tempBoard[tempRow][i] = "."; // mengisi dengan . untuk posisi kosong
+                        tempBoard[tempRow][i] = '.'; // mengisi dengan . untuk posisi kosong
                     } else {
-                        tempBoard[tempRow][i] = linePieces[i];
+                        tempBoard[tempRow][i] = linePieces[i].charAt(0); // mengisi dengan karakter asli
                     }
                 }
                 tempRow++;
                 line = reader.readLine();
             }
 
+            // get exit coordinate
+            Coordinate exitCoordinate = convertExitCoordinate(tempBoard);
+
+            // get exit side
+            int exitSide = getExitSide(tempBoard);
+
+            // trim board
+            char[][] newBoard = trimBoard(tempBoard, exitSide);
+
+            // convert pieces
+            List<Piece> pieces = convertPieces(newBoard, numPieces);
+
+            // isi Papan
+            papan.setTotalRow(row+2);
+            papan.setTotalCol(col+2);
+            papan.setEffRow(row);
+            papan.setEffCol(col);
+            papan.setPieces(pieces);
+            papan.setExitCoordinate(exitCoordinate);
+            papan.setBoard(Utils.buildNewBoard(newBoard));
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
     }
 
-    public static List<Piece> convertPieces(String[][] newBoard) {
+    // dapatkan list pieces
+    // TODO: optimize
+    public static List<Piece> convertPieces(char[][] newBoard, int numPieces) {
         List<Piece> pieces = new ArrayList<>();
-        
+        int totPiece = numPieces + 1; // tambah 1 untuk primary piece
+        int countPiece = 0;
+
+        // daftar semua piece ke dalam list
+        while (countPiece < totPiece) {
+            // traversal papan, jika piece belum ada di list, tambahkan
+            for (int i = 0; i < newBoard.length; i++) {
+                for (int j = 0; j < newBoard[i].length; j++) {
+                    if (newBoard[i][j] != '.' && !Utils.isPieceInList(newBoard[i][j], pieces)) {
+                        // buat list koordinat piece
+                        List<Coordinate> coordinates = new ArrayList<>();
+                        coordinates.add(new Coordinate(i+1, j+1));
+
+                        // cari semua koordinat piece yang sama
+                        for (int k = 0; k < newBoard.length; k++) {
+                            for (int l = 0; l < newBoard[k].length; l++) {
+                                if (newBoard[k][l] == newBoard[i][j] && !(k == i && l == j)) {
+                                    coordinates.add(new Coordinate(k+1, l+1));
+                                }
+                            }
+                        }
+
+                        // buat piece baru dan tambahkan ke list
+                        Piece piece = new Piece(newBoard[i][j], coordinates, newBoard[i][j] == 'P', Utils.isPieceHorizontal(coordinates));
+                        pieces.add(piece);
+                        countPiece++;
+                    }
+                }
+            }
+        }
         return pieces;
     }
 
-    public static Coordinate convertExitCoordinate(String[][] fileBoard) {
+    // dapatkan koordinat titik keluar papan
+    public static Coordinate convertExitCoordinate(char[][] fileBoard) {
         Coordinate exitCoordinate = null;
         int exitSide = getExitSide(fileBoard);
         for (int i = 0; i < fileBoard.length; i++) {
             for (int j = 0; j < fileBoard[i].length; j++) {
-                if (fileBoard[i][j].equals("K")) {
+                if (fileBoard[i][j] == 'K') {
                     switch (exitSide) {
                         case 1 -> exitCoordinate = new Coordinate(i, j+1); // atas
                         case 2 -> exitCoordinate = new Coordinate(i+1, j+1); // bawah
@@ -92,10 +147,11 @@ public class IOHandler {
         return exitCoordinate;
     }
 
-    public static int getExitSide(String[][] fileBoard) {
+    // dapatkan sisi keluar dari papan
+    public static int getExitSide(char[][] fileBoard) {
         for (int i = 0; i < fileBoard.length; i++) {
             for (int j = 0; j < fileBoard[i].length; j++) {
-                if (fileBoard[i][j].equals("K")) {
+                if (fileBoard[i][j] == 'K') {
                     if (i == 0) {
                         return 1; // atas
                     } else if (i == fileBoard.length - 1) {
@@ -111,8 +167,9 @@ public class IOHandler {
         return 0; // tidak ditemukan
     }
 
-    public static String[][] trimBoard(String[][] fileBoard, int exitSide) {
-        String[][] newBoard = new String[fileBoard.length - 1][fileBoard[0].length - 1];
+    // trim papan sesuai dengan sisi keluar
+    public static char[][] trimBoard(char[][] fileBoard, int exitSide) {
+        char[][] newBoard = new char[fileBoard.length - 1][fileBoard[0].length - 1];
         switch (exitSide) {
             case 1 -> {
                 // trim row atas
@@ -146,6 +203,7 @@ public class IOHandler {
         return newBoard;
     }
 
+    // input untuk algoritma
     public static int inputAlgorithm() {
         System.out.println("Pilih algoritma yang ingin digunakan: ");
         System.out.println("1. Greedy Best First Search");

@@ -15,7 +15,7 @@ public class Papan {
 
     private List<Piece> pieces; 
     private Coordinate exitCoordinate; // list koordinat keluar
-    private int[][] borad; // papan permainan
+    private char[][] board; // papan permainan
 
     /* Methods */
     // Constructor
@@ -26,7 +26,7 @@ public class Papan {
         this.effCol = 0;
         this.pieces = null;
         this.exitCoordinate = null;
-        this.borad = null;
+        this.board = null;
     }
 
     public Papan(int row, int col, List<Piece> pieces, Coordinate exitCoordinate) {
@@ -36,7 +36,7 @@ public class Papan {
         this.effCol = col; // kolom efektif
         this.pieces = pieces;
         this.exitCoordinate = exitCoordinate;
-        this.borad = new int[totalRow][totalCol]; // inisialisasi papan
+        this.board = new char[totalRow][totalCol]; // inisialisasi papan
     }
 
     // Getter
@@ -58,8 +58,8 @@ public class Papan {
     public Coordinate getExitCoordinate() {
         return exitCoordinate;
     }
-    public int[][] getBorad() {
-        return borad;
+    public char[][] getBoard() {
+        return board;
     }
 
     // Setter
@@ -81,7 +81,7 @@ public class Papan {
     public void setExitCoordinate(Coordinate exitCoordinate) {
         this.exitCoordinate = exitCoordinate;
     }
-    public void setBorad(int[][] borad) {
-        this.borad = borad;
+    public void setBoard(char[][] board) {
+        this.board = board;
     }
 }

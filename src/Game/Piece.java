@@ -6,19 +6,21 @@ import java.util.List;
 public class Piece {
 
     // Atribut
-    private String name;
+    private char name;
     private List<Coordinate> coordinates; // list koordinat dari piece
     private boolean isPrimary; // flag untuk primary piece
+    private boolean isHorizontal; // flag untuk horizontal piece
 
     // Methods
-    Piece(String name, List<Coordinate> coordinates, boolean isPrimary) {
+    public Piece(char name, List<Coordinate> coordinates, boolean isPrimary, boolean isHorizontal) {
         this.name = name;
         this.coordinates = coordinates;
         this.isPrimary = isPrimary;
+        this.isHorizontal = isHorizontal;
     }
 
     // Getter
-    public String getName() {
+    public char getName() {
         return name;
     }
     public List<Coordinate> getCoordinates() {
@@ -27,9 +29,12 @@ public class Piece {
     public boolean isPrimary() {
         return isPrimary;
     }
+    public boolean isHorizontal() {
+        return isHorizontal;
+    }
 
     // Setter
-    public void setName(String name) {
+    public void setName(char name) {
         this.name = name;
     }
     public void setCoordinates(List<Coordinate> coordinates) {
@@ -37,6 +42,9 @@ public class Piece {
     }
     public void setPrimary(boolean isPrimary) {
         this.isPrimary = isPrimary;
+    }
+    public void setHorizontal(boolean isHorizontal) {
+        this.isHorizontal = isHorizontal;
     }
 
     // Method untuk mengubah posisi piece
