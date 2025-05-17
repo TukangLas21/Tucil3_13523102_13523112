@@ -1,7 +1,9 @@
+package Game;
+
 import java.util.List;
 
+/* Kelas yang merepresentasikan papan pada permainan */
 public class Papan {
-    /* Kelas yang merepresentasikan papan pada permainan */
 
     /* Atribut */
     // baris dan kolom total, termasuk koordinat keluar
@@ -17,6 +19,16 @@ public class Papan {
 
     /* Methods */
     // Constructor
+    public Papan() {
+        this.totalRow = 0;
+        this.totalCol = 0;
+        this.effRow = 0;
+        this.effCol = 0;
+        this.pieces = null;
+        this.exitCoordinate = null;
+        this.borad = null;
+    }
+
     public Papan(int row, int col, List<Piece> pieces, Coordinate exitCoordinate) {
         this.totalRow = row + 2; // total baris
         this.totalCol = col + 2; // total kolom

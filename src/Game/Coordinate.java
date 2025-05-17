@@ -1,5 +1,7 @@
+package Game;
+
+/* Kelass Coordinate yang merepresentasikan suatu koordinat pada papan */
 public class Coordinate {
-    /* Kelass Coordinate yang merepresentasikan suatu koordinat pada papan */
     private int row; // posisi baris
     private int col; // posisi kolom
 

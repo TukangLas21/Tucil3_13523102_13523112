@@ -1,7 +1,9 @@
+package Game;
+
 import java.util.List;
 
+/* Kelas Piece yang merepresentasikan sebuah piece */
 public class Piece {
-    /* Kelas Piece yang merepresentasikan sebuah piece */
 
     // Atribut
     private String name;
