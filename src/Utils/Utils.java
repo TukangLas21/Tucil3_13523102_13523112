@@ -6,6 +6,7 @@ import java.util.List;
 
 /* Kelas untuk fungsi-fungsi utilitas */
 public class Utils {
+    // mengecek apakah nama piece sudah ada di dalam list
     public static boolean isPieceInList(char name, List<Piece> pieces) {
         for (Piece piece : pieces) {
             if (piece.getName() == name) {
@@ -15,6 +16,7 @@ public class Utils {
         return false;
     }
 
+    // mengecek apakah piece horizontal berdasarkan list koordinatnya
     public static boolean isPieceHorizontal(List<Coordinate> coordinates) {
         // jika semua koordinat memiliki baris yang sama, maka piece horizontal
         for (int i = 1; i < coordinates.size(); i++) {
@@ -25,6 +27,7 @@ public class Utils {
         return true;
     }
 
+    // membentuk board baru dengan menambahkan 2 baris dan 2 kolom kosong
     public static char[][] buildNewBoard(char[][] board) {
         char[][] newBoard = new char[board.length+2][board[0].length+2];
 
