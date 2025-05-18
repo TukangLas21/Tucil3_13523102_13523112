@@ -1,0 +1,12 @@
+game\Move$Direction.class
+Main.class
+utils\IOHandler$1.class
+game\BoardState$1.class
+utils\IOHandler.class
+utils\Utils.class
+game\BoardState.class
+game\Coordinate.class
+game\Piece$1.class
+game\GBFS.class
+game\Move.class
+game\Piece.class

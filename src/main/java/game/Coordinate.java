@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 /* Kelass Coordinate yang merepresentasikan suatu koordinat pada papan */
 public class Coordinate {
@@ -43,12 +43,19 @@ public class Coordinate {
         this.col += colShift;
     }
 
-    // override methode equals
+    // override method equals
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Coordinate that = (Coordinate) obj;
         return row == that.row && col == that.col;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Integer.hashCode(row);
+        result = 31 * result + Integer.hashCode(col);
+        return result;
     }
 }

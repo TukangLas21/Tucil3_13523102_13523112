@@ -1,8 +1,8 @@
-package Game;
+package game;
 
-import Utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
+import utils.Utils;
 
 /* Kelas yang merepresentasikan state papan pada permainan */
 public class BoardState {
@@ -10,10 +10,10 @@ public class BoardState {
     private int col; 
     private char[][] board; 
     private Coordinate exitCoordinate; // koordinat keluar
-    private Move.Direction exitDirection; // arah koordinat keluar
     private List<Piece> pieces; // list piece
     private Piece primaryPiece; // piece utama
     private int value = calcValue(); // nilai heuristik
+    private Move lastMove; // langkah terakhir yang diambil
 
     // Konstruktor
     public BoardState() {
@@ -21,18 +21,18 @@ public class BoardState {
         this.col = 0;
         this.board = null;
         this.exitCoordinate = null;
-        this.exitDirection = null;
         this.pieces = null;
         this.primaryPiece = null;
+        this.lastMove = null;
     }
-    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Move.Direction exitDirection, Piece primaryPiece) {
+    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Move lastMove) {
         this.row = row;
         this.col = col;
         this.board = board;
         this.exitCoordinate = exitCoordinate;
-        this.exitDirection = exitDirection;
         this.pieces = pieces;
         this.primaryPiece = primaryPiece;
+        this.lastMove = lastMove;
     }
 
     
@@ -66,7 +66,7 @@ public class BoardState {
 
         char[][] newBoard = buildBoard(this.pieces);
 
-        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.exitDirection, this.primaryPiece);
+        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, new Move(piece.getName(), direction, this));
     }
 
     // membuat board dari list of pieces
@@ -150,6 +150,44 @@ public class BoardState {
         return possibleMoves;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof BoardState)) return false;
+        BoardState other = (BoardState) obj;
+        if (this.row != other.row || this.col != other.col) return false;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (this.board[i][j] != other.board[i][j]) return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 1;
+        result = 31 * result + row;
+        result = 31 * result + col;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                result = 31 * result + board[i][j];
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                sb.append(board[i][j]);
+            }
+        }
+        return sb.toString();
+    }
+
     // Getter
     public int getRow() {
         return row;
@@ -172,8 +210,8 @@ public class BoardState {
     public int getValue() {
         return value;
     }
-    public Move.Direction getExitDirection() {
-        return exitDirection;
+    public Move getLastMove() {
+        return lastMove;
     }
 
     // Setter
@@ -198,8 +236,8 @@ public class BoardState {
     public void setValue(int value) {
         this.value = value;
     }
-    public void setExitDirection(Move.Direction exitDirection) {
-        this.exitDirection = exitDirection;
+    public void setLastMove(Move lastMove) {
+        this.lastMove = lastMove;
     }
     
 }
