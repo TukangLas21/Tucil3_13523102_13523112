@@ -1,9 +1,9 @@
-package Utils;
+package utils;
 
-import Game.BoardState;
-import Game.Coordinate;
-import Game.Move;
-import Game.Piece;
+import game.BoardState;
+import game.Coordinate;
+import game.Move;
+import game.Piece;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

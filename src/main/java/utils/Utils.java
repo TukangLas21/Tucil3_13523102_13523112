@@ -1,7 +1,7 @@
-package Utils;
+package utils;
 
-import Game.Coordinate;
-import Game.Piece;
+import game.Coordinate;
+import game.Piece;
 import java.util.List;
 
 /* Kelas untuk fungsi-fungsi utilitas */

@@ -1,8 +1,8 @@
-package Game;
+package game;
 
-import Utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
+import utils.Utils;
 
 /* Kelas yang merepresentasikan state papan pada permainan */
 public class BoardState {

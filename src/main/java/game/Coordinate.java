@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 /* Kelass Coordinate yang merepresentasikan suatu koordinat pada papan */
 public class Coordinate {
