@@ -2,8 +2,8 @@ package Utils;
 
 import Game.BoardState;
 import Game.Coordinate;
-import Game.Piece;
 import Game.Move;
+import Game.Piece;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -57,11 +57,7 @@ public class IOHandler {
             while (line != null) {
                 String[] linePieces = line.split("");
                 for (int i = 0; i < linePieces.length; i++) {
-                    if (linePieces[i].equals(" ")) {
-                        tempBoard[tempRow][i] = '.'; // mengisi dengan . untuk posisi kosong
-                    } else {
-                        tempBoard[tempRow][i] = linePieces[i].charAt(0); // mengisi dengan karakter asli
-                    }
+                    tempBoard[tempRow][i] = linePieces[i].charAt(0);
                 }
                 tempRow++;
                 line = reader.readLine();
@@ -79,7 +75,8 @@ public class IOHandler {
             // convert pieces
             List<Piece> pieces = convertPieces(newBoard, numPieces);
 
-            return new BoardState(row, col, newBoard, pieces, exitCoordinate, exitSide, getPieceByName('P', pieces));
+            // buat BoardState dengan papan lengkap dari awal
+            return new BoardState(row, col, tempBoard, pieces, exitCoordinate, getPieceByName('P', pieces), null);
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
             return null;
