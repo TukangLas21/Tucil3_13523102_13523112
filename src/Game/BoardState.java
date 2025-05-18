@@ -151,6 +151,33 @@ public class BoardState {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof BoardState)) return false;
+        BoardState other = (BoardState) obj;
+        if (this.row != other.row || this.col != other.col) return false;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (this.board[i][j] != other.board[i][j]) return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 1;
+        result = 31 * result + row;
+        result = 31 * result + col;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                result = 31 * result + board[i][j];
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < row; i++) {

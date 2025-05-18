@@ -12,18 +12,22 @@ import java.util.Set;
 
 public class GBFS {
     public static List<BoardState> solve(BoardState initialState) {
-        BoardState currentState = initialState;
+        BoardState currentState = initialState; // state awal
 
+        // PriorityQueue untuk menyimpan state berdasarkan nilai heuristik
         PriorityQueue<BoardState> queue = new PriorityQueue<>(Comparator.comparingInt(BoardState::getValue));
         queue.add(currentState);
 
-        Set<String> visited = new HashSet<>();
-        visited.add(currentState.toString());
+        // Set berisi state yang sudah dikunjungi
+        Set<BoardState> visited = new HashSet<>();
+        visited.add(currentState); // Setiap state yang dijelajah dimasukkan
 
+        // Map untuk menyimpan parent dari setiap state
         Map<BoardState, BoardState> parentMap = new HashMap<>();
 
+        // eksplorasi semua kemungkinan
         while (!queue.isEmpty()) {
-            currentState = queue.poll();
+            currentState = queue.poll(); // cek state terdepan
 
             if (currentState.isGoal()) {
                 return reconstructPath(parentMap, currentState); // kembalikan jalur dari awal
@@ -34,8 +38,8 @@ public class GBFS {
 
             // iterasi setiap langkah dan tambahkan jika belum dikunjungi
             for (BoardState nextState : possibleMoves) {
-                if (!visited.contains(nextState.toString())) {
-                    visited.add(nextState.toString());
+                if (!visited.contains(nextState)) {
+                    visited.add(nextState);
                     parentMap.put(nextState, currentState);
                     queue.add(nextState);
                 }
