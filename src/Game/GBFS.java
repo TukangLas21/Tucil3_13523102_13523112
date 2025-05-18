@@ -10,8 +10,10 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+/* Kelas untuk solver menggunakan algoritma Greedy Best First Search */
 public class GBFS {
-    public static List<BoardState> solve(BoardState initialState) {
+    // Fungsi solver utama, mengembalikan array of Object berisi jalur dan jumlah gerakan
+    public static Object[] solve(BoardState initialState) {
         BoardState currentState = initialState; // state awal
 
         // PriorityQueue untuk menyimpan state berdasarkan nilai heuristik
@@ -25,12 +27,15 @@ public class GBFS {
         // Map untuk menyimpan parent dari setiap state
         Map<BoardState, BoardState> parentMap = new HashMap<>();
 
+        int countNode = 0; // menghitung jumlah gerakan yang dieksplorasi
+
         // eksplorasi semua kemungkinan
         while (!queue.isEmpty()) {
             currentState = queue.poll(); // cek state terdepan
+            countNode++; // increment jumlah node
 
             if (currentState.isGoal()) {
-                return reconstructPath(parentMap, currentState); // kembalikan jalur dari awal
+                return new Object[]{reconstructPath(parentMap, currentState), countNode}; // jika sudah mencapai tujuan, kembalikan jalur
             }
 
             // daftar semua langkah
