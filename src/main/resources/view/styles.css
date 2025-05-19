@@ -1,7 +1,7 @@
 .root {
     -fx-padding: 20;
     -fx-background-color: #f5f5f5;
-    background-color: #f5f5f5; /* Standard property */
+    background-color: #f5f5f5; 
 }
 
 .board-container {
@@ -9,13 +9,13 @@
     -fx-border-width: 1;
     -fx-border-radius: 5;
     -fx-background-color: white;
-    background-color: white; /* Standard property */
+    background-color: white; 
     -fx-padding: 10;
 }
 
 .action-button {
     -fx-background-color: #4CAF50;
-    background-color: #4CAF50; /* Standard property */
+    background-color: #4CAF50; 
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
