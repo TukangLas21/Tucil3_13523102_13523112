@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+        fx:controller="com.tuciltiga.controller.Controller"
+        spacing="20" styleClass="root" prefWidth="600" prefHeight="600">
+
+    <!-- Input Section -->
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="30"/>
+            <ColumnConstraints percentWidth="70"/>
+        </columnConstraints>
+
+        <!-- Config File Selection -->
+        <Label text="Config File:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <HBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <TextField fx:id="configPathField" disable="true" prefWidth="300"/>
+            <Button text="Browse" onAction="#handleFileBrowse" />
+        </HBox>
+
+        <!-- Algorithm Selection -->
+        <Label text="Algorithm:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="algorithmCombo" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <!-- Output Section -->
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
+        </columnConstraints>
+
+        <Label text="Moves:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="movesLabel" text="0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Runtime (ms):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="runtimeLabel" text="0.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Nodes Visited:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="nodesLabel" text="0" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <!-- Game Board Display -->
+    <BorderPane styleClass="board-container">
+        <center>
+            <Pane fx:id="gameBoard" prefWidth="400" prefHeight="400"/>
+        </center>
+    </BorderPane>
+
+    <!-- Control Buttons -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Solve" onAction="#handleSolve" styleClass="action-button"/>
+        <Button text="Reset" onAction="#handleReset"/>
+    </HBox>
+</VBox>
