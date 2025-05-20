@@ -1,0 +1,36 @@
+.root {
+    -fx-padding: 20;
+    -fx-background-color: #a3d3ff;
+    background-color: #f5f5f5; 
+}
+
+.board-container {
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+    background-color: white; 
+    -fx-padding: 10;
+}
+
+.action-button {
+    -fx-background-color: #1b651e;
+    background-color: #4CAF50; 
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.reset-button {
+    -fx-background-color: #640d0d;
+    background-color: #4CAF50; 
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-font-size: 12px;
+}
+
+.combo-box {
+    -fx-pref-width: 200;
+}
