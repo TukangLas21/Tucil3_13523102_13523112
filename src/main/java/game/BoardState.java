@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import utils.Utils;
 
 /* Kelas yang merepresentasikan state papan pada permainan */
@@ -12,8 +13,10 @@ public class BoardState {
     private Coordinate exitCoordinate; // koordinat keluar
     private List<Piece> pieces; // list piece
     private Piece primaryPiece; // piece utama
-    private int value = calcValue(); // nilai heuristik
+    private final Heuristic heuristic; // heuristik yang digunakan
+    private int value; // nilai heuristik
     private Move lastMove; // langkah terakhir yang diambil
+    private int depth; // depth node
 
     // Konstruktor
     public BoardState() {
@@ -23,26 +26,24 @@ public class BoardState {
         this.exitCoordinate = null;
         this.pieces = null;
         this.primaryPiece = null;
+        this.heuristic = null;
+        this.value = 0;
         this.lastMove = null;
+        this.depth = 0;
     }
-    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Move lastMove) {
+    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Heuristic heuristic, Move lastMove, int depth) {
         this.row = row;
         this.col = col;
         this.board = board;
         this.exitCoordinate = exitCoordinate;
         this.pieces = pieces;
         this.primaryPiece = primaryPiece;
+        this.heuristic = heuristic;
+        BoardState self = this;
+        this.value = 0;
+        if(this.heuristic != null) this.value = heuristic.calcValue(self);
         this.lastMove = lastMove;
-    }
-
-    
-    // perhitungan nilai heuristik berdasarkan jarak piece utama ke koordinat keluar
-    private int calcValue() {
-        if (primaryPiece.isHorizontal()) { // jarak horizontal
-            return Math.abs(primaryPiece.getCoordinates().get(0).getCol() - exitCoordinate.getCol());
-        } else { // jarak vertikal
-            return Math.abs(primaryPiece.getCoordinates().get(0).getRow() - exitCoordinate.getRow());
-        }
+        this.depth = depth;
     }
 
     // cek apakah state sudah mencapai tujuan
@@ -66,7 +67,7 @@ public class BoardState {
 
         char[][] newBoard = buildBoard(this.pieces);
 
-        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, new Move(piece.getName(), direction, this));
+        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, this.heuristic, new Move(piece.getName(), direction, this), this.depth+1);
     }
 
     // membuat board dari list of pieces
@@ -128,21 +129,61 @@ public class BoardState {
         }
     }
 
+    private boolean isBetween(int value, int bound1, int bound2) {
+        return (bound1 < value && value < bound2) || (bound2 < value && value < bound1);
+    }
+
+    public boolean isPieceBlocking(Piece piece) {
+        for (Coordinate coordinate : piece.getCoordinates()) {
+            if(this.primaryPiece.isHorizontal()){
+                // berarti blockingnya kan vertikal
+                if(coordinate.getRow() == exitCoordinate.getRow()){
+                    for(Coordinate coordinate2 : this.primaryPiece.getCoordinates()){
+                        if(isBetween(coordinate.getCol(), coordinate2.getCol(), exitCoordinate.getCol())){
+                            return true;
+                        }
+                    }
+                }
+            }
+            else{
+                // berarti blockingnya kan horizontal
+                if(coordinate.getCol() == exitCoordinate.getCol()){
+                    for(Coordinate coordinate2 : this.primaryPiece.getCoordinates()){
+                        if(isBetween(coordinate.getRow(), coordinate2.getRow(), exitCoordinate.getRow())){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public List<BoardState> getPossibleMoves() {
         List<BoardState> possibleMoves = new ArrayList<>();
         for (Piece piece : pieces) {
             if (piece.isHorizontal()) {
                 for (Move.Direction direction : new Move.Direction[]{Move.Direction.LEFT, Move.Direction.RIGHT}) {
                     BoardState newState = movePiece(piece, direction);
-                    if (newState != null) {
+                    while (newState != null) {
                         possibleMoves.add(newState);
+                        newState = newState.movePiece(piece, direction);
+                        if(newState == null) break;
+                        newState.setLastMove(this.lastMove);
+                        newState.setDepth(this.depth + 1);
+                        // update last move supaya tetap refer ke parent, dan hanya terhitung 1 langkah saja
                     }
                 }
             } else {
                 for (Move.Direction direction : new Move.Direction[]{Move.Direction.UP, Move.Direction.DOWN}) {
                     BoardState newState = movePiece(piece, direction);
-                    if (newState != null) {
+                    while (newState != null) {
                         possibleMoves.add(newState);
+                        newState = newState.movePiece(piece, direction);
+                        if(newState == null) break;
+                        // update last move supaya tetap refer ke parent, dan hanya terhitung 1 langkah saja
+                        newState.setLastMove(this.lastMove);
+                        newState.setDepth(this.depth + 1);
                     }
                 }
             }
@@ -207,13 +248,18 @@ public class BoardState {
     public Piece getPrimaryPiece() {
         return primaryPiece;
     }
+    public Heuristic getHeuristic() {
+        return heuristic;
+    }
     public int getValue() {
         return value;
     }
     public Move getLastMove() {
         return lastMove;
     }
-
+    public int getDepth() {
+        return depth;
+    }
     // Setter
     public void setRow(int row) {
         this.row = row;
@@ -238,6 +284,9 @@ public class BoardState {
     }
     public void setLastMove(Move lastMove) {
         this.lastMove = lastMove;
+    }
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
     
 }
