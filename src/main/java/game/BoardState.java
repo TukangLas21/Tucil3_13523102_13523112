@@ -12,7 +12,8 @@ public class BoardState {
     private Coordinate exitCoordinate; // koordinat keluar
     private List<Piece> pieces; // list piece
     private Piece primaryPiece; // piece utama
-    private int value = calcValue(); // nilai heuristik
+    private final Heuristic heuristic; // heuristik yang digunakan
+    private int value; // nilai heuristik
     private Move lastMove; // langkah terakhir yang diambil
 
     // Konstruktor
@@ -23,26 +24,21 @@ public class BoardState {
         this.exitCoordinate = null;
         this.pieces = null;
         this.primaryPiece = null;
+        this.heuristic = new DistanceToExitHeuristic(); // default heuristik
+        this.value = 0;
         this.lastMove = null;
     }
-    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Move lastMove) {
+    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Heuristic heuristic, Move lastMove) {
         this.row = row;
         this.col = col;
         this.board = board;
         this.exitCoordinate = exitCoordinate;
         this.pieces = pieces;
         this.primaryPiece = primaryPiece;
+        this.heuristic = heuristic;
+        BoardState self = this;
+        this.value = heuristic.calcValue(self);
         this.lastMove = lastMove;
-    }
-
-    
-    // perhitungan nilai heuristik berdasarkan jarak piece utama ke koordinat keluar
-    private int calcValue() {
-        if (primaryPiece.isHorizontal()) { // jarak horizontal
-            return Math.abs(primaryPiece.getCoordinates().get(0).getCol() - exitCoordinate.getCol());
-        } else { // jarak vertikal
-            return Math.abs(primaryPiece.getCoordinates().get(0).getRow() - exitCoordinate.getRow());
-        }
     }
 
     // cek apakah state sudah mencapai tujuan
@@ -66,7 +62,7 @@ public class BoardState {
 
         char[][] newBoard = buildBoard(this.pieces);
 
-        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, new Move(piece.getName(), direction, this));
+        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, this.heuristic, new Move(piece.getName(), direction, this));
     }
 
     // membuat board dari list of pieces
@@ -126,6 +122,36 @@ public class BoardState {
                 return false;
             }
         }
+    }
+
+    private boolean isBetween(int value, int bound1, int bound2) {
+        return (bound1 < value && value < bound2) || (bound2 < value && value < bound1);
+    }
+
+    public boolean isPieceBlocking(Piece piece) {
+        for (Coordinate coordinate : piece.getCoordinates()) {
+            if(this.primaryPiece.isHorizontal()){
+                // berarti blockingnya kan vertikal
+                if(coordinate.getRow() == exitCoordinate.getRow()){
+                    for(Coordinate coordinate2 : this.primaryPiece.getCoordinates()){
+                        if(isBetween(coordinate.getCol(), coordinate2.getCol(), exitCoordinate.getCol())){
+                            return true;
+                        }
+                    }
+                }
+            }
+            else{
+                // berarti blockingnya kan horizontal
+                if(coordinate.getCol() == exitCoordinate.getCol()){
+                    for(Coordinate coordinate2 : this.primaryPiece.getCoordinates()){
+                        if(isBetween(coordinate.getRow(), coordinate2.getRow(), exitCoordinate.getRow())){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public List<BoardState> getPossibleMoves() {

@@ -1,7 +1,5 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,7 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 /* Kelas untuk solver menggunakan algoritma Greedy Best First Search */
-public class GBFS {
+public class GBFS extends Algorithm{
     // Fungsi solver utama, mengembalikan array of Object berisi jalur dan jumlah gerakan
     public static Object[] solve(BoardState initialState) {
         BoardState currentState = initialState; // state awal
@@ -52,16 +50,5 @@ public class GBFS {
         }
 
         return null; // tidak ada solusi
-    }
-
-    // Fungsi untuk membangun jalur berdasarkan parentMap
-    public static List<BoardState> reconstructPath(Map<BoardState, BoardState> parentMap, BoardState currentState) {
-        List<BoardState> path = new ArrayList<>();
-        while (currentState != null) {
-            path.add(currentState);
-            currentState = parentMap.get(currentState);
-        }
-        Collections.reverse(path);
-        return path;
     }
 }
