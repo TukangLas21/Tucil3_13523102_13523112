@@ -12,7 +12,6 @@ import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -27,9 +26,6 @@ import javafx.util.Duration;
 public class Controller {
     @FXML 
     TextField configPathField = new TextField();
-
-    @FXML
-    Button fileBrowseButton = new Button();
 
     @FXML 
     ComboBox<Algorithm> algorithmCombo = new ComboBox<>();
@@ -56,7 +52,7 @@ public class Controller {
 
     private List<BoardState> solutionPath;
 
-    private int cellSize = 50;
+    private final int cellSize = 50;
 
     @FXML
     public void initialize() {
@@ -152,6 +148,13 @@ public class Controller {
            - nodeCountLabel.setText(algorithm.getNodesVisited())
         4. Start animation
         */
+        long startTime = System.currentTimeMillis();
+
+
+
+        long endTime = System.currentTimeMillis();
+        long runTime = endTime - startTime;
+        runtimeLabel.setText(String.valueOf(runTime));
         animate();
         timeline.play();
     }
