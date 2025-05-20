@@ -16,15 +16,6 @@ public class BoardState {
     private Move lastMove; // langkah terakhir yang diambil
 
     // Konstruktor
-    public BoardState() {
-        this.row = 0;
-        this.col = 0;
-        this.board = null;
-        this.exitCoordinate = null;
-        this.pieces = null;
-        this.primaryPiece = null;
-        this.lastMove = null;
-    }
     public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Move lastMove) {
         this.row = row;
         this.col = col;
@@ -38,10 +29,20 @@ public class BoardState {
     
     // perhitungan nilai heuristik berdasarkan jarak piece utama ke koordinat keluar
     private int calcValue() {
-        if (primaryPiece.isHorizontal()) { // jarak horizontal
-            return Math.abs(primaryPiece.getCoordinates().get(0).getCol() - exitCoordinate.getCol());
-        } else { // jarak vertikal
-            return Math.abs(primaryPiece.getCoordinates().get(0).getRow() - exitCoordinate.getRow());
+        // if (primaryPiece.isHorizontal()) { // jarak horizontal
+        //     return Math.abs(primaryPiece.getCoordinates().get(0).getCol() - exitCoordinate.getCol());
+        // } else { // jarak vertikal
+        //     return Math.abs(primaryPiece.getCoordinates().get(0).getRow() - exitCoordinate.getRow());
+        // }
+        return 1;
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                System.out.print(board[i][j]);
+            }
+            System.out.println();
         }
     }
 

@@ -1,8 +1,12 @@
 package utils;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import game.Coordinate;
 import game.Piece;
-import java.util.List;
+import javafx.scene.paint.Color;
 
 /* Kelas untuk fungsi-fungsi utilitas */
 public class Utils {
@@ -48,5 +52,14 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    // Map berisi pasangan huruf dengan warna untuk image
+    public static final Map<Character, Color> imageColorMap = new HashMap<>();
+    static {
+        imageColorMap.put('K', Color.rgb(0, 255, 102));
+        imageColorMap.put('P', Color.rgb(204, 0, 0));
+        imageColorMap.put('.', Color.rgb(96, 96, 96));  
+        imageColorMap.put(' ', Color.WHITE); // warna putih untuk spasi
     }
 }

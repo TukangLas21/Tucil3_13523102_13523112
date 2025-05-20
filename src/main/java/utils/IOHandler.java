@@ -1,16 +1,19 @@
 package utils;
 
-import game.BoardState;
-import game.Coordinate;
-import game.Move;
-import game.Piece;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+
+import game.BoardState;
+import game.Coordinate;
+import game.Move;
+import game.Piece;
 
 /* Kelas statik untuk handle input dan output */
 public class IOHandler {
@@ -57,26 +60,49 @@ public class IOHandler {
             while (line != null) {
                 String[] linePieces = line.split("");
                 for (int i = 0; i < linePieces.length; i++) {
+                    if (i >= linePieces.length) {
+                        throw new IOException("kolom kelebihan le");
+                    }
                     tempBoard[tempRow][i] = linePieces[i].charAt(0);
                 }
                 tempRow++;
+                if (tempRow >= tempBoard.length) {
+                    throw new IOException("baris kelebihan le");
+                }
                 line = reader.readLine();
             }
 
+            // System.out.println("Getting exit coordinates");
             // get exit coordinate
-            Coordinate exitCoordinate = convertExitCoordinate(tempBoard);
+            Coordinate exitCoordinate = getExitCoordinate(tempBoard);
+            if (exitCoordinate == null) {
+                throw new IOException("Koordinat keluar tidak ditemukan");
+            }
 
+            // System.out.println("Getting exit direction");
             // get exit side
             Move.Direction exitSide = getExitSide(tempBoard);
 
+            // System.out.println("Trimming board");
             // trim board
             char[][] newBoard = trimBoard(tempBoard, exitSide);
+            if (newBoard == null) {
+                throw new IOException("Gagal memotong papan");
+            }
 
+            // System.out.println("Converting pieces");
             // convert pieces
             List<Piece> pieces = convertPieces(newBoard, numPieces);
 
+            // System.out.println("Finished converting pieces");
+
+            Piece primaryPiece = getPrimaryPiece(pieces);
+
+            for (Piece piece : pieces) {
+                System.out.println(piece);
+            }
             // buat BoardState dengan papan lengkap dari awal
-            return new BoardState(row, col, tempBoard, pieces, exitCoordinate, getPieceByName('P', pieces), null);
+            return new BoardState(row, col, newBoard, pieces, exitCoordinate, primaryPiece, null);
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
             return null;
@@ -84,59 +110,50 @@ public class IOHandler {
     }
 
     // dapatkan list pieces
-    // TODO: optimize
-    public static List<Piece> convertPieces(char[][] newBoard, int numPieces) {
+    public static List<Piece> convertPieces(char[][] board, int numPieces) {
         List<Piece> pieces = new ArrayList<>();
-        int totPiece = numPieces + 1; // tambah 1 untuk primary piece
-        int countPiece = 0;
+        Set<Character> processedPieces = new HashSet<>();
+        int targetCount = numPieces + 1;  // +1 for primary piece
+        int currentCount = 0;
 
-        // daftar semua piece ke dalam list
-        while (countPiece < totPiece) {
-            // traversal papan, jika piece belum ada di list, tambahkan
-            for (int i = 0; i < newBoard.length; i++) {
-                for (int j = 0; j < newBoard[i].length; j++) {
-                    if (newBoard[i][j] != '.' && !Utils.isPieceInList(newBoard[i][j], pieces)) {
-                        // buat list koordinat piece
-                        List<Coordinate> coordinates = new ArrayList<>();
-                        coordinates.add(new Coordinate(i+1, j+1));
+        for (int i = 0; i < board.length && currentCount < targetCount; i++) {
+            for (int j = 0; j < board[i].length && currentCount < targetCount; j++) {
+                char c = board[i][j];
+                
+                if (!Character.isLetter(c) || c == 'K' || processedPieces.contains(c)) {
+                    continue;
+                }
 
-                        // cari semua koordinat piece yang sama
-                        for (int k = 0; k < newBoard.length; k++) {
-                            for (int l = 0; l < newBoard[k].length; l++) {
-                                if (newBoard[k][l] == newBoard[i][j] && !(k == i && l == j)) {
-                                    coordinates.add(new Coordinate(k+1, l+1));
-                                }
-                            }
+                List<Coordinate> coordinates = new ArrayList<>();
+                for (int k = i; k < board.length; k++) {
+                    for (int l = (k == i ? j : 0); l < board[k].length; l++) {
+                        if (board[k][l] == c) {
+                            coordinates.add(new Coordinate(k, l));
                         }
-
-                        // buat piece baru dan tambahkan ke list
-                        Piece piece = new Piece(newBoard[i][j], coordinates, newBoard[i][j] == 'P', Utils.isPieceHorizontal(coordinates));
-                        pieces.add(piece);
-                        countPiece++;
                     }
                 }
+
+                boolean isPrimary = c == 'P';
+                boolean isHorizontal = Utils.isPieceHorizontal(coordinates);
+                pieces.add(new Piece(c, coordinates, isPrimary, isHorizontal));
+                
+                processedPieces.add(c);
+                currentCount++;
             }
         }
+        
         return pieces;
     }
 
-    // dapatkan koordinat titik keluar papan
-    public static Coordinate convertExitCoordinate(char[][] fileBoard) {
-        Coordinate exitCoordinate = null;
-        Move.Direction exitSide = getExitSide(fileBoard);
+    public static Coordinate getExitCoordinate(char[][] fileBoard) {
         for (int i = 0; i < fileBoard.length; i++) {
             for (int j = 0; j < fileBoard[i].length; j++) {
                 if (fileBoard[i][j] == 'K') {
-                    switch (exitSide) {
-                        case UP -> exitCoordinate = new Coordinate(i+1, j); // atas
-                        case DOWN -> exitCoordinate = new Coordinate(i-1, j); // bawah
-                        case LEFT -> exitCoordinate = new Coordinate(i, j+1); // kiri
-                        case RIGHT -> exitCoordinate = new Coordinate(i, j-1); // kanan
-                    }
+                    return new Coordinate(i, j);
                 }
             }
         }
-        return exitCoordinate;
+        return null;
     }
 
     // dapatkan sisi keluar dari papan
@@ -161,38 +178,41 @@ public class IOHandler {
 
     // trim papan sesuai dengan sisi keluar
     public static char[][] trimBoard(char[][] fileBoard, Move.Direction exitSide) {
-        char[][] newBoard = new char[fileBoard.length - 1][fileBoard[0].length - 1];
         switch (exitSide) {
             case UP -> {
-                // trim row atas
-                for (int i = 1; i < fileBoard.length; i++) {
-                    System.arraycopy(fileBoard[i], 0, newBoard[i - 1], 0, fileBoard[i].length);
-                }
-                break;
-            } 
-            case DOWN -> {
-                // trim row bawah
-                for (int i = 0; i < fileBoard.length - 1; i++) {
-                    System.arraycopy(fileBoard[i], 0, newBoard[i], 0, fileBoard[i].length);
-                }
-                break;
-            }
-            case LEFT -> {
-                // trim kolom kiri
-                for (int i = 0; i < fileBoard.length; i++) {
-                    System.arraycopy(fileBoard[i], 1, newBoard[i], 0, fileBoard[i].length - 1);
-                }
-                break;
-            }
-            case RIGHT -> {
-                // trim kolom kanan
+                char[][] newBoard = new char[fileBoard.length][fileBoard[0].length-1];
+                // trim kolom paling kanan
                 for (int i = 0; i < fileBoard.length; i++) {
                     System.arraycopy(fileBoard[i], 0, newBoard[i], 0, fileBoard[i].length - 1);
                 }
-                break;
+                return newBoard;
+            }
+            case DOWN -> {
+                char[][] newBoard = new char[fileBoard.length][fileBoard[0].length-1];
+                // trim kolom paling kanan
+                for (int i = 0; i < fileBoard.length; i++) {
+                    System.arraycopy(fileBoard[i], 0, newBoard[i], 0, fileBoard[i].length - 1);
+                }
+                return newBoard;
+            }
+            case LEFT -> {
+                char[][] newBoard = new char[fileBoard.length-1][fileBoard[0].length];
+                // trim baris paling bawah
+                for (int i = 0; i < fileBoard.length - 1; i++) {
+                    System.arraycopy(fileBoard[i], 0, newBoard[i], 0, fileBoard[i].length);
+                }
+                return newBoard;
+            }
+            case RIGHT -> {
+                char[][] newBoard = new char[fileBoard.length-1][fileBoard[0].length];
+                // trim baris paling bawah
+                for (int i = 0; i < fileBoard.length - 1; i++) {
+                    System.arraycopy(fileBoard[i], 0, newBoard[i], 0, fileBoard[i].length);
+                }
+                return newBoard;
             }
         }
-        return newBoard;
+        return null;
     }
 
     // input untuk algoritma
@@ -219,5 +239,37 @@ public class IOHandler {
             }
         }
         return null;
+    }
+
+    public static Piece getPrimaryPiece(List<Piece> pieces) {
+        for (Piece piece : pieces) {
+            if (piece.isPrimary()) {
+                return piece;
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        // Contoh penggunaan
+        File file = readInputFile();
+        BoardState boardState = convertInput(file);
+        if (boardState != null) {
+            System.out.println("Board State berhasil dikonversi.");
+            System.out.println("Exit Coordinate: " + boardState.getExitCoordinate());
+            System.out.println("Primary Piece: " + boardState.getPrimaryPiece().getName());
+        } else {
+            System.out.println("Gagal mengonversi Board State.");
+        }
+    }
+
+    public static void findPrimaryPiece(List<Piece> pieces) {
+        for (Piece piece : pieces) {
+            if (piece.isPrimary()) {
+                System.out.println("Primary Piece: " + piece.getName());
+                return;
+            }
+        }
+        System.out.println("Primary Piece tidak ditemukan.");
     }
 }

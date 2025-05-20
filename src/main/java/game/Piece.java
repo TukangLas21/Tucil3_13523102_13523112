@@ -47,6 +47,34 @@ public class Piece {
         this.isHorizontal = isHorizontal;
     }
 
+    public int getWidth() {
+        int minCol = Integer.MAX_VALUE;
+        int maxCol = Integer.MIN_VALUE;
+        for (Coordinate coordinate : coordinates) {
+            if (coordinate.getCol() < minCol) {
+                minCol = coordinate.getCol();
+            }
+            if (coordinate.getCol() > maxCol) {
+                maxCol = coordinate.getCol();
+            }
+        }
+        return maxCol - minCol + 1;
+    }
+
+    public int getHeight() {
+        int minRow = Integer.MAX_VALUE;
+        int maxRow = Integer.MIN_VALUE;
+        for (Coordinate coordinate : coordinates) {
+            if (coordinate.getRow() < minRow) {
+                minRow = coordinate.getRow();
+            }
+            if (coordinate.getRow() > maxRow) {
+                maxRow = coordinate.getRow();
+            }
+        }
+        return maxRow - minRow + 1;
+    }
+
     // Method untuk mengubah posisi piece
     public void shift(int rowShift, int colShift) {
         for (Coordinate coordinate : coordinates) {
@@ -67,5 +95,14 @@ public class Piece {
                 case RIGHT -> coordinate.shiftCol(1);
             }
         }
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Piece ").append(name).append(": ");
+        for (Coordinate coordinate : coordinates) {
+            sb.append("(").append(coordinate.getRow()).append(", ").append(coordinate.getCol()).append(") ");
+        }
+        return sb.toString();
     }
 }

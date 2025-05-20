@@ -7,14 +7,14 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
         fx:controller="com.tuciltiga.controller.Controller"
-        spacing="20" styleClass="root" prefWidth="600" prefHeight="600">
+        spacing="10" styleClass="root" prefWidth="600" prefHeight="600">
 
     <stylesheets>
         <URL value="@styles.css" />
     </stylesheets>
 
     <!-- Input Section -->
-    <GridPane hgap="10" vgap="10">
+    <GridPane hgap="10" vgap="5">
         <columnConstraints>
             <ColumnConstraints percentWidth="30"/>
             <ColumnConstraints percentWidth="70"/>
@@ -33,14 +33,11 @@
     </GridPane>
 
     <!-- Output Section -->
-    <GridPane hgap="10" vgap="10">
+    <GridPane hgap="10" vgap="5">
         <columnConstraints>
             <ColumnConstraints percentWidth="50"/>
             <ColumnConstraints percentWidth="50"/>
         </columnConstraints>
-
-        <Label text="Moves:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <Label fx:id="movesLabel" text="0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
         <Label text="Runtime (ms):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <Label fx:id="runtimeLabel" text="0.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>

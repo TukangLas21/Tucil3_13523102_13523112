@@ -1,6 +1,6 @@
 .root {
     -fx-padding: 20;
-    -fx-background-color: #f5f5f5;
+    -fx-background-color: #a3d3ff;
     background-color: #f5f5f5; 
 }
 
@@ -14,14 +14,14 @@
 }
 
 .action-button {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #1b651e;
     background-color: #4CAF50; 
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 
 .label {
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
 }
 
 .combo-box {
