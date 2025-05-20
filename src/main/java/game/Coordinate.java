@@ -10,6 +10,10 @@ public class Coordinate {
         this.row = row;
         this.col = col;
     }
+    public Coordinate(Coordinate other) {
+        this.row = other.row;
+        this.col = other.col;
+    }
 
     // Getter
     public int getRow() {

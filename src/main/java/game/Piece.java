@@ -1,6 +1,7 @@
 package game;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /* Kelas Piece yang merepresentasikan sebuah piece */
 public class Piece {
@@ -17,6 +18,16 @@ public class Piece {
         this.coordinates = coordinates;
         this.isPrimary = isPrimary;
         this.isHorizontal = isHorizontal;
+    }
+
+    public Piece(Piece other) {
+        this.name = other.name;
+        this.coordinates = new ArrayList<>();
+        for (Coordinate coord : other.coordinates) {
+            this.coordinates.add(new Coordinate(coord));
+        }
+        this.isPrimary = other.isPrimary;
+        this.isHorizontal = other.isHorizontal;
     }
 
     // Getter
