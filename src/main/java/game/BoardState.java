@@ -223,10 +223,6 @@ public class BoardState {
                 BoardState nextState = movePiece(piece, direction);
                 if (nextState != null) {
                     possibleMoves.add(nextState);
-                    if (piece.getName() =='B') {
-                        System.out.println("Possible move for B:");
-                        printBoard(nextState.getBoard());
-                    }
                 }
             }
         }

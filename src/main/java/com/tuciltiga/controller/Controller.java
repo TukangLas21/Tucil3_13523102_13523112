@@ -332,8 +332,6 @@ public class Controller {
                 }
                 solutionPath = (List<BoardState>) result[0];
                 nodeCount = (int) result[1];
-                System.out.println("Count Node: " + nodeCount);
-                System.out.println("Count Node: " + result[1]);
             }
             case ASTAR -> {
                 Object[] result = AStar.solve(initialState);
