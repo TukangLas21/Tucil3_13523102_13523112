@@ -142,6 +142,10 @@ public class IOHandler {
                     }
                 }
 
+                if (coordinates.isEmpty() || coordinates.size() < 2 || coordinates.size() > 3) {
+                    throw new IllegalArgumentException("Invalid piece coordinates for piece: " + c);
+                }
+
                 boolean isPrimary = c == 'P';
                 boolean isHorizontal = Utils.isPieceHorizontal(coordinates);
                 pieces.add(new Piece(c, coordinates, isPrimary, isHorizontal));
@@ -149,6 +153,10 @@ public class IOHandler {
                 processedPieces.add(c);
                 currentCount++;
             }
+        }
+
+        if (currentCount != targetCount) {
+            throw new IllegalArgumentException("Invalid number of pieces found. Expected: " + targetCount + ", Found: " + currentCount);
         }
         
         return pieces;
