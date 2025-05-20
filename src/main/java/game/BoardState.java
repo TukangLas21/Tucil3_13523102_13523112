@@ -165,15 +165,25 @@ public class BoardState {
             if (piece.isHorizontal()) {
                 for (Move.Direction direction : new Move.Direction[]{Move.Direction.LEFT, Move.Direction.RIGHT}) {
                     BoardState newState = movePiece(piece, direction);
-                    if (newState != null) {
+                    while (newState != null) {
                         possibleMoves.add(newState);
+                        newState = newState.movePiece(piece, direction);
+                        if(newState == null) break;
+                        newState.setLastMove(this.lastMove);
+                        newState.setDepth(this.depth + 1);
+                        // update last move supaya tetap refer ke parent, dan hanya terhitung 1 langkah saja
                     }
                 }
             } else {
                 for (Move.Direction direction : new Move.Direction[]{Move.Direction.UP, Move.Direction.DOWN}) {
                     BoardState newState = movePiece(piece, direction);
-                    if (newState != null) {
+                    while (newState != null) {
                         possibleMoves.add(newState);
+                        newState = newState.movePiece(piece, direction);
+                        if(newState == null) break;
+                        // update last move supaya tetap refer ke parent, dan hanya terhitung 1 langkah saja
+                        newState.setLastMove(this.lastMove);
+                        newState.setDepth(this.depth + 1);
                     }
                 }
             }
