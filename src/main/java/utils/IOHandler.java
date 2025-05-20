@@ -100,16 +100,16 @@ public class IOHandler {
 
             Piece primaryPiece = getPrimaryPiece(pieces);
 
-            for (Piece piece : pieces) {
-                System.out.println(piece);
-            }
+            // for (Piece piece : pieces) {
+            //     System.out.println(piece);
+            // }
 
-            for (int i = 0; i < newBoard.length; i++) {
-                for (int j = 0; j < newBoard[i].length; j++) {
-                    System.out.print(newBoard[i][j]);
-                }
-                System.out.println();
-            }
+            // for (int i = 0; i < newBoard.length; i++) {
+            //     for (int j = 0; j < newBoard[i].length; j++) {
+            //         System.out.print(newBoard[i][j]);
+            //     }
+            //     System.out.println();
+            // }
             // buat BoardState dengan papan lengkap dari awal
             return new BoardState(row, col, newBoard, pieces, exitCoordinate, primaryPiece, null, null, 0);
         } catch (IOException e) {
