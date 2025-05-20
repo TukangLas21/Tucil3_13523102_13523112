@@ -43,7 +43,7 @@ public class IDAStar extends Algorithm {
 
     // Fungsi rekursif DFS untuk eksplorasi dengan batas threshold
     private static Result search(BoardState currentState, int threshold, Set<BoardState> visited, Map<BoardState, BoardState> parentMap) {
-        int countNode = 1; // menghitung jumlah gerakan yang dieksplorasi
+        int countNode = 0; // menghitung jumlah gerakan yang dieksplorasi
         int f = currentState.getDepth() + currentState.getValue(); // f(n) = g(n) + h(n)
 
         if (f > threshold) {
@@ -64,8 +64,8 @@ public class IDAStar extends Algorithm {
         
         // eksplorasi semua kemungkinan
         for (BoardState nextState : possibleMoves) {
-            countNode++;
             if (!visited.contains(nextState)) {
+                countNode++;
                 visited.add(nextState); 
                 parentMap.put(nextState, currentState); 
 
@@ -74,6 +74,7 @@ public class IDAStar extends Algorithm {
 
                 if (result.isGoalFound) {
                     // jika sudah mencapai tujuan, kembalikan jalur
+                    result.countNode = countNode;
                     return result;
                 }
 
