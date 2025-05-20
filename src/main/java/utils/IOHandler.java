@@ -61,16 +61,16 @@ public class IOHandler {
             int tempRow = 0;
             while (line != null) {
                 String[] linePieces = line.split("");
+                if (tempRow >= tempBoard.length) {
+                    throw new IOException("baris kelebihan");
+                }
                 for (int i = 0; i < linePieces.length; i++) {
                     if (i >= linePieces.length) {
-                        throw new IOException("kolom kelebihan le");
+                        throw new IOException("kolom kelebihan");
                     }
                     tempBoard[tempRow][i] = linePieces[i].charAt(0);
                 }
                 tempRow++;
-                if (tempRow >= tempBoard.length) {
-                    throw new IOException("baris kelebihan le");
-                }
                 line = reader.readLine();
             }
 
