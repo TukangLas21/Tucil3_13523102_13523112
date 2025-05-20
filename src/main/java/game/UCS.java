@@ -35,7 +35,6 @@ public class UCS extends Algorithm {
             System.out.println("Node ke-" + countNode); // tampilkan node yang sedang dieksplorasi
             System.out.println(currentState.getDepth()); // tampilkan state yang sedang dieksplorasi
 
-
             if (currentState.isGoal()) {
                 return new Object[]{reconstructPath(parentMap, currentState), countNode}; // jika sudah mencapai tujuan, kembalikan jalur
             }

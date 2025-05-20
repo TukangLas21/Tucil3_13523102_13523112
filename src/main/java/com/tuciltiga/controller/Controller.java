@@ -75,8 +75,7 @@ public class Controller {
     public void handleFileBrowse() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select config file");
-        fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         
         File file = fileChooser.showOpenDialog(configPathField.getScene().getWindow());
         if (file != null) {
@@ -178,12 +177,12 @@ public class Controller {
             showAlert("Error", "No solution found");
             return;
         }
-        // showAlert("Mantap!", "Berhasil pak!");
 
+        updateSolutionPath();
         long endTime = System.currentTimeMillis();
         long runTime = endTime - startTime;
         runtimeLabel.setText(String.valueOf(runTime));
-        moveCountLabel.setText(String.valueOf(solutionPath.size()));
+        moveCountLabel.setText(String.valueOf(solutionPath.size()-1));
         nodeCountLabel.setText(String.valueOf(nodeCount));
 
         if (!solutionPath.isEmpty()) {
@@ -227,12 +226,12 @@ public class Controller {
 
     private void animateTransition(int toStateIndex) {
         if (solutionPath == null || toStateIndex < 1 || toStateIndex >= solutionPath.size()) {
-            return; // Invalid index
+            return; 
         }
 
         BoardState targetState = solutionPath.get(toStateIndex);
 
-        Move move = targetState.getLastMove(); // The move that led to targetState
+        Move move = targetState.getLastMove(); 
 
         if (move == null) {
             System.err.println("Error: Move is null for state at index " + toStateIndex);
@@ -271,6 +270,49 @@ public class Controller {
         moveAnimation.play();
     }
 
+    private void updateSolutionPath() {
+        if (solutionPath == null) {
+            showAlert("Error", "No solution path available.");
+        }
+
+        BoardState lastState = solutionPath.get(solutionPath.size() - 1);
+        Move.Direction exitDir = lastState.getDirectionToExit();
+        switch (exitDir) {
+            case UP -> {
+                while (lastState.getPrimaryPiece().getCoordinates().size() > 1) {
+                    lastState.getPrimaryPiece().removeCoordinateAtCoordinate(lastState.getExitCoordinate());
+                    BoardState newState = lastState.movePiece(lastState.getPrimaryPiece(), Move.Direction.UP);
+                    solutionPath.add(newState);
+                    lastState = solutionPath.get(solutionPath.size() - 1);
+                }
+            }
+            case DOWN -> {
+                while (lastState.getPrimaryPiece().getCoordinates().size() > 1) {
+                    lastState.getPrimaryPiece().removeCoordinateAtCoordinate(lastState.getExitCoordinate());
+                    BoardState newState = lastState.movePiece(lastState.getPrimaryPiece(), Move.Direction.DOWN);
+                    solutionPath.add(newState);
+                    lastState = solutionPath.get(solutionPath.size() - 1);
+                }
+            }
+            case LEFT -> {
+                while (lastState.getPrimaryPiece().getCoordinates().size() > 1) {
+                    lastState.getPrimaryPiece().removeCoordinateAtCoordinate(lastState.getExitCoordinate());
+                    BoardState newState = lastState.movePiece(lastState.getPrimaryPiece(), Move.Direction.LEFT);
+                    solutionPath.add(newState);
+                    lastState = solutionPath.get(solutionPath.size() - 1);
+                }
+            }
+            case RIGHT -> {
+                while (lastState.getPrimaryPiece().getCoordinates().size() > 1) {
+                    lastState.getPrimaryPiece().removeCoordinateAtCoordinate(lastState.getExitCoordinate());
+                    BoardState newState = lastState.movePiece(lastState.getPrimaryPiece(), Move.Direction.RIGHT);
+                    solutionPath.add(newState);
+                    lastState = solutionPath.get(solutionPath.size() - 1);
+                }
+            }
+        }
+    }
+
     private Rectangle findPieceBlock(char pieceName) {
         for (Node node : gameBoard.getChildren()) {
             if (node instanceof Rectangle && node.getUserData() != null && node.getUserData().equals(pieceName)) {
@@ -290,6 +332,8 @@ public class Controller {
                 }
                 solutionPath = (List<BoardState>) result[0];
                 nodeCount = (int) result[1];
+                System.out.println("Count Node: " + nodeCount);
+                System.out.println("Count Node: " + result[1]);
             }
             case ASTAR -> {
                 Object[] result = AStar.solve(initialState);
@@ -381,10 +425,19 @@ public class Controller {
 
     @FXML
     private void handleSave() {
-        // TODO: implement save in test/result
         if (solutionPath == null) {
             showAlert("Error", "No solution path available to save.");
             return;
         }
+        
+        String fileName = IOHandler.getOutputFileName();
+        if (fileName == null || fileName.isEmpty()) {
+            showAlert("Error", "Invalid file name.");
+            return;
+        }
+
+        IOHandler.outputToFile(fileName, solutionPath);
+
+        showAlert("Success", "Solution path saved to " + fileName);
     }
 }

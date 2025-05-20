@@ -1,8 +1,10 @@
 package utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -261,19 +263,6 @@ public class IOHandler {
         return null;
     }
 
-    public static void main(String[] args) {
-        // Contoh penggunaan
-        File file = readInputFile();
-        BoardState boardState = convertInput(file);
-        if (boardState != null) {
-            System.out.println("Board State berhasil dikonversi.");
-            System.out.println("Exit Coordinate: " + boardState.getExitCoordinate());
-            System.out.println("Primary Piece: " + boardState.getPrimaryPiece().getName());
-        } else {
-            System.out.println("Gagal mengonversi Board State.");
-        }
-    }
-
     public static void findPrimaryPiece(List<Piece> pieces) {
         for (Piece piece : pieces) {
             if (piece.isPrimary()) {
@@ -282,5 +271,80 @@ public class IOHandler {
             }
         }
         System.out.println("Primary Piece tidak ditemukan.");
+    }
+
+    public static void outputToFile(String fileName, List<BoardState> path) {
+        // Construct the full path to the directory
+        File outputDir = new File("test/result"); // Relative to project root is often more reliable
+
+        if (!outputDir.exists()) {
+            boolean created = outputDir.mkdirs(); 
+            if (created) {
+                System.out.println("Created output directory: " + outputDir.getAbsolutePath());
+            } else {
+                System.out.println("Failed to create output directory: " + outputDir.getAbsolutePath());            }
+        }
+
+        File filePath = new File(outputDir, fileName); // Use the directory and filename
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Papan Awal");
+            writer.newLine();
+            BoardState initialState = path.get(0);
+            for (int i = 0; i < initialState.getBoard().length; i++) {
+                for (int j = 0; j < initialState.getBoard()[i].length; j++) {
+                    if (!Character.isLetter(initialState.getBoard()[i][j]) && initialState.getBoard()[i][j] != '.') {
+                        writer.write("");
+                    } else {
+                        writer.write(initialState.getBoard()[i][j]);
+                    }
+                }
+                writer.newLine();
+            }
+
+            writer.newLine();
+            for (int idx = 1; idx < path.size(); idx++) {
+                BoardState state = path.get(idx);
+                writer.write("Gerakan " + idx + ": " + state.getLastMove().getPieceName() + "-");
+                switch (state.getLastMove().getDirection()) {
+                    case UP -> writer.write("atas");
+                    case DOWN -> writer.write("bawah");
+                    case LEFT -> writer.write("kiri");
+                    case RIGHT -> writer.write("kanan");
+                }
+                writer.newLine();
+                for (int i = 0; i < state.getBoard().length; i++) {
+                    for (int j = 0; j < state.getBoard()[i].length; j++) {
+                        if (!Character.isLetter(state.getBoard()[i][j]) && state.getBoard()[i][j] != '.') {
+                            writer.write("");
+                        } else {
+                            writer.write(state.getBoard()[i][j]);
+                        }
+                    }
+                    writer.newLine();
+                }
+                writer.newLine();
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+
+    public static String getOutputFileName() {
+        int count = 1;
+        File outputDir = new File("test/result"); // Define base directory consistently
+
+        // Ensure the directory exists when generating the filename too
+        if (!outputDir.exists()) {
+            outputDir.mkdirs();
+        }
+
+        File filePath = new File(outputDir, "output" + count + ".txt");        
+        while (filePath.exists()) {
+            count++;
+            filePath = new File(outputDir, "output" + count + ".txt");
+        }
+        return "output" + count + ".txt";
     }
 }

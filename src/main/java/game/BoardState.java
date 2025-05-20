@@ -99,11 +99,27 @@ public class BoardState {
             }
         }
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                newBoard[i][j] = '.'; // Initialize empty cells
+        // exit coordinate di atas
+        if (exitCoordinate.getRow() == 0 && exitCoordinate.getCol() < board[0].length-1) {
+            for (int i = 1; i < row+1; i++) {
+                for (int j = 0; j < col; j++) {
+                    newBoard[i][j] = '.'; 
+                }
+            }
+        } else if (exitCoordinate.getCol() == 0 && exitCoordinate.getRow() < board.length-1) { // exit coord di kiri
+            for (int i = 0; i < row; i++) {
+                for (int j = 1; j < col+1; j++) {
+                    newBoard[i][j] = '.'; 
+                }
+            } 
+        } else {
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    newBoard[i][j] = '.'; 
+                }
             }
         }
+
 
         for (Piece piece : pieces) {
             for (Coordinate coordinate : piece.getCoordinates()) {
@@ -119,10 +135,6 @@ public class BoardState {
         int trow = board.length;
         int tcol = board[0].length;
 
-        // Iterate over a copy of coordinates if piece.moveDirection modifies them,
-        // or ensure piece.moveDirection is only called on a copied piece.
-        // For now, assuming getCoordinates() returns current, stable coordinates.
-
         for (Coordinate coordinate : piece.getCoordinates()) {
             int nextRow = coordinate.getRow();
             int nextCol = coordinate.getCol();
@@ -132,34 +144,30 @@ public class BoardState {
                 case DOWN:  nextRow++; break;
                 case LEFT:  nextCol--; break;
                 case RIGHT: nextCol++; break;
-                default: return false; // Should not happen
+                default: return false;
             }
 
-            // Check bounds
             if (nextRow < 0 || nextRow >= trow || nextCol < 0 || nextCol >= tcol) {
-                return false; // Moved out of bounds
+                return false; 
             }
 
-            // Check content of the target cell
             char targetCell = board[nextRow][nextCol];
 
-            if (targetCell == piece.getName()) { // Trying to move into itself
-                continue; // This part of the piece is fine, check other parts
+            if (targetCell == piece.getName()) { 
+                continue;
             }
 
             if (piece.isPrimary()) {
-                // Primary piece can move to '.' or 'K'
                 if (targetCell != '.' && targetCell != 'K') {
-                    return false; // Blocked by another piece
+                    return false; 
                 }
             } else {
-                // Other pieces can only move to '.'
                 if (targetCell != '.') {
-                    return false; // Blocked by another piece or exit
+                    return false; 
                 }
             }
         }
-        return true; // All parts of the piece can move to valid locations
+        return true; 
     }
 
     private boolean isBetween(int value, int bound1, int bound2) {
@@ -203,34 +211,31 @@ public class BoardState {
             }
 
             for (Move.Direction direction : directionsToTry) {
-                // Try to move the piece one step in the current direction
                 BoardState nextState = movePiece(piece, direction);
                 if (nextState != null) {
                     possibleMoves.add(nextState);
                 }
-
-                // If you want to allow pieces to slide multiple steps until they hit something,
-                // that logic needs to be more carefully implemented.
-                // The current approach is to generate single-step moves.
-                // If multi-step slides are intended as single "moves" in your game's definition:
-                /*
-                BoardState currentState = this;
-                BoardState nextSlideStep = currentState.movePiece(piece, direction);
-                while (nextSlideStep != null) {
-                    possibleMoves.add(nextSlideStep); // Add this intermediate slide step
-                    currentState = nextSlideStep;     // The new base for the next slide
-                    nextSlideStep = currentState.movePiece(piece, direction); // Try to slide further
-                }
-                */
-                // The above commented block is one way to interpret multi-step slides.
-                // However, the original loop was flawed. For now, let's stick to single step moves.
-                // If you need multi-step moves, the `movePiece` would need to return the final state
-                // after sliding, or this loop needs careful management of parent states for the `Move` object.
             }
         }
         return possibleMoves;
     }
 
+    public Move.Direction getDirectionToExit() {
+        if (this.primaryPiece.isHorizontal()) {
+            // antara kiri atau kanan
+            if (this.exitCoordinate.getCol() == 0) { // di kiri
+                return Move.Direction.LEFT;
+            } else {
+                return Move.Direction.RIGHT;
+            }
+        } else { // atas atau bawah
+            if (this.exitCoordinate.getRow() == 0) { // di atas
+                return Move.Direction.UP;
+            } else {
+                return Move.Direction.DOWN;
+            }
+        }
+    }
 
     @Override
     public boolean equals(Object obj) {

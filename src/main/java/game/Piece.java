@@ -108,6 +108,10 @@ public class Piece {
         }
     }
 
+    public void removeCoordinateAtCoordinate(Coordinate coordinate) {
+        coordinates.removeIf(coord -> coord.equals(coordinate));
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Piece ").append(name).append(": ");
