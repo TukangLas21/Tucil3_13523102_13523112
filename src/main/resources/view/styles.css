@@ -20,6 +20,13 @@
     -fx-font-weight: bold;
 }
 
+.reset-button {
+    -fx-background-color: #640d0d;
+    background-color: #4CAF50; 
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
 .label {
     -fx-font-size: 12px;
 }

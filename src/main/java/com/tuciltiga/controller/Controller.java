@@ -1,12 +1,16 @@
 package com.tuciltiga.controller;
 
 import java.io.File;
+import java.util.List;
 
 import game.BoardState;
 import game.Piece;
 import game.Move;
-import game.Coordinate;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -17,7 +21,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import utils.IOHandler;
-import utils.Utils;
+
+import javafx.util.Duration;
 
 public class Controller {
     @FXML 
@@ -29,20 +34,14 @@ public class Controller {
     @FXML 
     ComboBox<Algorithm> algorithmCombo = new ComboBox<>();
 
+    @FXML
+    ComboBox<Heuristic> heuristicCombo = new ComboBox<>();
+
     @FXML 
     Label moveCountLabel = new Label();
 
     @FXML 
     Pane gameBoard = new Pane();
-
-    @FXML
-    Button exitButton = new Button();
-
-    @FXML
-    Button resetButton = new Button();
-
-    @FXML
-    Button solveButton = new Button();
 
     @FXML
     Label runtimeLabel = new Label();
@@ -51,10 +50,21 @@ public class Controller {
     Label nodeCountLabel = new Label();
 
     @FXML
+    Timeline timeline;
+
+    private int stateIdx = 0;
+
+    private List<BoardState> solutionPath;
+
+    private int cellSize = 50;
+
+    @FXML
     public void initialize() {
         // Setup algorithm choices
         algorithmCombo.getItems().setAll(Algorithm.values());
         algorithmCombo.getSelectionModel().selectFirst();
+        heuristicCombo.getItems().setAll(Heuristic.values());
+        heuristicCombo.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -82,7 +92,6 @@ public class Controller {
     }
 
     private void displayBoard(BoardState boardState) {
-        int cellSize = 50; 
         gameBoard.setPrefSize(boardState.getCol() * cellSize, boardState.getRow() * cellSize);
         gameBoard.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px;");
         gameBoard.getChildren().clear();
@@ -115,6 +124,7 @@ public class Controller {
             rect.setStroke(Color.BLACK);
             rect.setTranslateX(piece.getCoordinates().get(0).getCol() * cellSize);
             rect.setTranslateY(piece.getCoordinates().get(0).getRow() * cellSize);
+            rect.setUserData(piece.getName());
             gameBoard.getChildren().add(rect);
         }
 
@@ -123,10 +133,11 @@ public class Controller {
     @FXML
     private void handleSolve() {
         Algorithm algorithm = algorithmCombo.getValue();
+        Heuristic heuristic = heuristicCombo.getValue();
         String configPath = configPathField.getText();
         
-        if (configPath.isEmpty()) {
-            showAlert("Error", "Please select a config file first");
+        if (configPath.isEmpty() || !isPathValid(configPath)) {
+            showAlert("Error", "Please select a valid config file first");
             return;
         }
 
@@ -141,6 +152,59 @@ public class Controller {
            - nodeCountLabel.setText(algorithm.getNodesVisited())
         4. Start animation
         */
+        animate();
+        timeline.play();
+    }
+
+    private void animate() {
+        if (timeline != null) timeline.stop();
+
+        timeline = new Timeline();
+        stateIdx = 0;
+
+        for (int i = 1; i < solutionPath.size(); i++) {
+            int toIdx = i;
+
+            KeyFrame frame = new KeyFrame(Duration.seconds(0.5 * (i+1)), e -> animateTransition(toIdx));
+            timeline.getKeyFrames().add(frame);
+        }
+    }
+
+    private void animateTransition(int toIdx) {
+        BoardState to = solutionPath.get(toIdx);
+
+        Move move = to.getLastMove();
+
+        Rectangle rect = findPieceBlock(move.getPieceName());
+
+        TranslateTransition moveAnimation = new TranslateTransition(Duration.seconds(0.5), rect);
+
+        // TODO: tambahin distance
+        if (move.getDirection() == Move.Direction.LEFT || move.getDirection() == Move.Direction.RIGHT) {
+            moveAnimation.setByX(move.getDirection() == Move.Direction.LEFT ? -cellSize : cellSize);
+        } else {
+            moveAnimation.setByY(move.getDirection() == Move.Direction.UP ? -cellSize : cellSize);
+        }
+
+        moveAnimation.setOnFinished(event -> {
+            displayBoard(to);
+        });
+
+        moveAnimation.play();
+    }
+
+    private Rectangle findPieceBlock(char pieceName) {
+        for (Node node : gameBoard.getChildren()) {
+            if (node instanceof Rectangle && node.getUserData().equals(pieceName)) {
+                return (Rectangle) node;
+            }
+        }
+        throw new IllegalArgumentException("Piece not found: " + pieceName);
+    }
+
+    private boolean isPathValid(String path) {
+        File file = new File(path);
+        return file.exists() && file.isFile() && file.canRead();
     }
 
     @FXML
@@ -159,4 +223,36 @@ public class Controller {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    private void handlePause() {
+        if (timeline != null) {
+            timeline.pause();
+        }
+    }
+
+    @FXML
+    private void handleResume() {
+        if (timeline != null) {
+            timeline.play();
+        }
+    }
+
+    @FXML
+    private void handleReverse() {
+        if (solutionPath != null && stateIdx > 0) {
+            stateIdx--;
+            BoardState previousState = solutionPath.get(stateIdx);
+            displayBoard(previousState);
+        }
+    }
+
+    @FXML
+    private void handleForward() {
+        if (solutionPath != null && stateIdx < solutionPath.size() - 1) {
+            stateIdx++;
+            BoardState nextState = solutionPath.get(stateIdx);
+            displayBoard(nextState);
+        }
+    }   
 }

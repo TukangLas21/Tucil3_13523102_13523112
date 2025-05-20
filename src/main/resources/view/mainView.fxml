@@ -23,13 +23,25 @@
         <!-- Config File Selection -->
         <Label text="Config File:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <HBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
-            <TextField fx:id="configPathField" disable="true" prefWidth="300"/>
+            <TextField fx:id="configPathField" disable="false" prefWidth="300"/>
             <Button text="Browse" onAction="#handleFileBrowse" />
         </HBox>
+    </GridPane>
 
-        <!-- Algorithm Selection -->
-        <Label text="Algorithm:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="algorithmCombo" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <GridPane hgap="10" vgap="5">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="15"/>
+            <ColumnConstraints percentWidth="35"/>
+            <ColumnConstraints percentWidth="15"/>
+            <ColumnConstraints percentWidth="35"/>
+        </columnConstraints>
+
+        <!-- Algorithm & Heuristics Selection -->
+        <Label text="Algorithm:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="algorithmCombo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Heuristic:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+        <ComboBox fx:id="heuristicCombo" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
     </GridPane>
 
     <!-- Output Section -->
@@ -44,18 +56,23 @@
 
         <Label text="Nodes Visited:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <Label fx:id="nodesLabel" text="0" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Path Length:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="moveCountLabel" text="0" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
     </GridPane>
 
     <!-- Game Board Display -->
-    <BorderPane styleClass="board-container">
-        <center>
-            <Pane fx:id="gameBoard" prefWidth="400" prefHeight="400"/>
-        </center>
-    </BorderPane>
+    <ScrollPane styleClass="board-container" fitToHeight="true" fitToWidth="true">
+        <Pane fx:id="gameBoard" prefWidth="400" prefHeight="400"/>
+    </ScrollPane>
 
     <!-- Control Buttons -->
     <HBox spacing="10" alignment="CENTER">
-        <Button text="Solve" onAction="#handleSolve" styleClass="action-button"/>
-        <Button text="Reset" onAction="#handleReset"/>
-    </HBox>
+        <Button text="Start" onAction="#handleSolve" styleClass="action-button"/>
+        <Button text="Pause" onAction="#handlePause"/>
+        <Button text="&lt;" onAction="#handleReverse"/>
+        <Button text="&gt;" onAction="#handleForward"/>
+        <Button text="Resume" onAction="#handleResume"/>
+        <Button text="Reset" onAction="#handleReset" styleClass="reset-button"/>
+    </HBox>    
 </VBox>

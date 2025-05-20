@@ -27,6 +27,18 @@ public class Move {
         return result;
     }
 
+    public char getPieceName() {
+        return pieceName;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public BoardState getBoard() {
+        return board;
+    }
+
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }

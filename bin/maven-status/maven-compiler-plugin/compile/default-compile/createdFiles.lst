@@ -12,4 +12,5 @@ com\tuciltiga\controller\Algorithm.class
 game\BoardState.class
 game\Piece$1.class
 game\GBFS.class
+com\tuciltiga\controller\Heuristic.class
 game\Piece.class
