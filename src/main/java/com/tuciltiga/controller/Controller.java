@@ -255,4 +255,13 @@ public class Controller {
             displayBoard(nextState);
         }
     }   
+
+    @FXML
+    private void handleSave() {
+        // TODO: implement save in test/result
+        if (solutionPath == null) {
+            showAlert("Error", "No solution path available to save.");
+            return;
+        }
+    }
 }
