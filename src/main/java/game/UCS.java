@@ -14,7 +14,7 @@ public class UCS extends Algorithm {
     public static Object[] solve(BoardState initialState) {
         BoardState currentState = initialState; // state awal
 
-        // PriorityQueue untuk menyimpan state berdasarkan nilai heuristik
+        // PriorityQueue untuk menyimpan state berdasarkan kedalaman
         PriorityQueue<BoardState> queue = new PriorityQueue<>(Comparator.comparingInt(BoardState::getDepth));
         queue.add(currentState);
 
@@ -31,6 +31,10 @@ public class UCS extends Algorithm {
         while (!queue.isEmpty()) {
             currentState = queue.poll(); // cek state terdepan
             countNode++; // increment jumlah node
+
+            System.out.println("Node ke-" + countNode); // tampilkan node yang sedang dieksplorasi
+            System.out.println(currentState.getDepth()); // tampilkan state yang sedang dieksplorasi
+
 
             if (currentState.isGoal()) {
                 return new Object[]{reconstructPath(parentMap, currentState), countNode}; // jika sudah mencapai tujuan, kembalikan jalur

@@ -33,6 +33,7 @@ public class GBFS extends Algorithm {
             countNode++; // increment jumlah node
             System.out.println("Node ke-" + countNode); // tampilkan node yang sedang dieksplorasi
             System.out.println(currentState.getValue()); // tampilkan state yang sedang dieksplorasi
+            System.out.println(currentState);
 
             if (currentState.isGoal()) {
                 return new Object[]{reconstructPath(parentMap, currentState), countNode}; // jika sudah mencapai tujuan, kembalikan jalur

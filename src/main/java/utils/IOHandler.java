@@ -101,6 +101,13 @@ public class IOHandler {
             for (Piece piece : pieces) {
                 System.out.println(piece);
             }
+
+            for (int i = 0; i < newBoard.length; i++) {
+                for (int j = 0; j < newBoard[i].length; j++) {
+                    System.out.print(newBoard[i][j]);
+                }
+                System.out.println();
+            }
             // buat BoardState dengan papan lengkap dari awal
             return new BoardState(row, col, newBoard, pieces, exitCoordinate, primaryPiece, null, null, 0);
         } catch (IOException e) {
@@ -161,13 +168,17 @@ public class IOHandler {
         for (int i = 0; i < fileBoard.length; i++) {
             for (int j = 0; j < fileBoard[i].length; j++) {
                 if (fileBoard[i][j] == 'K') {
-                    if (i == 0) {
+                    if (i == 0 && j < fileBoard[i].length - 1) {
+                        System.out.println("UP");
                         return Move.Direction.UP;
-                    } else if (i == fileBoard.length - 1) {
+                    } else if (i == fileBoard.length - 1 && j < fileBoard[i].length - 1) {
+                        System.out.println("DOWN");
                         return Move.Direction.DOWN;
-                    } else if (j == 0) {
+                    } else if (j == 0 && i < fileBoard.length - 1) {
+                        System.out.println("LEFT");
                         return Move.Direction.LEFT;
-                    } else if (j == fileBoard[i].length - 1) {
+                    } else if (j == fileBoard[i].length - 1 && i < fileBoard.length - 1) {
+                        System.out.println("RIGHT");
                         return Move.Direction.RIGHT;
                     }
                 }

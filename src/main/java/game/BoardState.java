@@ -52,30 +52,56 @@ public class BoardState {
     }
 
     // membuat state baru dari state yang ada dengan menggerakkan sebuah piece
-    public BoardState movePiece(Piece piece, Move.Direction direction) {
-        if (!isValidMove(piece, direction)) {
+    public BoardState movePiece(Piece pieceToMove, Move.Direction direction) { // Renamed parameter for clarity
+        if (!isValidMove(pieceToMove, direction)) {
             return null; // jika tidak valid, kembalikan null
         }
 
-        // ubah posisi piece pada list pieces
+        // Create a deep copy of the pieces list
+        List<Piece> newPiecesList = new ArrayList<>();
+        Piece movedPieceInNewList = null;
         for (Piece p : this.pieces) {
-            if (p.getName() == piece.getName()) {
-                p.moveDirection(direction);
-                break;
+            Piece copiedPiece = new Piece(p); 
+            newPiecesList.add(copiedPiece);
+            if (p.getName() == pieceToMove.getName()) {
+                movedPieceInNewList = copiedPiece;
             }
         }
 
-        char[][] newBoard = buildBoard(this.pieces);
+        if (movedPieceInNewList == null) {
+            return null;
+        }
+        movedPieceInNewList.moveDirection(direction);
 
-        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, this.heuristic, new Move(piece.getName(), direction, this), this.depth+1);
+        Piece newPrimaryPiece = (this.primaryPiece.getName() == movedPieceInNewList.getName()) ? movedPieceInNewList : null;
+        if (newPrimaryPiece == null) {
+            for (Piece p : newPiecesList) {
+                if (p.getName() == this.primaryPiece.getName()) {
+                    newPrimaryPiece = p;
+                    break;
+                }
+            }
+        }
+
+        char[][] newBoardArray = buildBoard(newPiecesList);
+
+        return new BoardState(this.row, this.col, newBoardArray, newPiecesList, this.exitCoordinate, newPrimaryPiece, this.heuristic, new Move(movedPieceInNewList.getName(), direction, this), this.depth + 1);
     }
 
     // membuat board dari list of pieces
     public char[][] buildBoard(List<Piece> pieces) {
-        char[][] newBoard = new char[row][col];
+        char[][] newBoard = new char[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 'K') {
+                    newBoard[i][j] = 'K'; // Exit point
+                }
+            }
+        }
+
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                newBoard[i][j] = '.';
+                newBoard[i][j] = '.'; // Initialize empty cells
             }
         }
 
@@ -92,122 +118,48 @@ public class BoardState {
     public boolean isValidMove(Piece piece, Move.Direction direction) {
         int trow = board.length;
         int tcol = board[0].length;
-        if (piece.isPrimary()) {
+
+        // Iterate over a copy of coordinates if piece.moveDirection modifies them,
+        // or ensure piece.moveDirection is only called on a copied piece.
+        // For now, assuming getCoordinates() returns current, stable coordinates.
+
+        for (Coordinate coordinate : piece.getCoordinates()) {
+            int nextRow = coordinate.getRow();
+            int nextCol = coordinate.getCol();
+
             switch (direction) {
-                case UP -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if ((coordinate.getRow() == 0) || ((board[coordinate.getRow()-1][coordinate.getCol()] != '.' || board[coordinate.getRow()-1][coordinate.getCol()] != 'K') && board[coordinate.getRow()-1][coordinate.getCol()] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                case DOWN -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if ((coordinate.getRow() == trow-1) || ((board[coordinate.getRow()+1][coordinate.getCol()] != '.' || board[coordinate.getRow()+1][coordinate.getCol()] != 'K') && board[coordinate.getRow()+1][coordinate.getCol()] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                case LEFT -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if ((coordinate.getCol() == 0) || ((board[coordinate.getRow()][coordinate.getCol()-1] != '.'  || board[coordinate.getRow()][coordinate.getCol()-1] != 'K') && board[coordinate.getRow()][coordinate.getCol()-1] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                case RIGHT -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if ((coordinate.getCol() == tcol-1) || ((board[coordinate.getRow()][coordinate.getCol()+1] != '.' || board[coordinate.getRow()][coordinate.getCol()+1] != 'K') && board[coordinate.getRow()][coordinate.getCol()+1] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                default -> {
-                    return false;
-                }
+                case UP:    nextRow--; break;
+                case DOWN:  nextRow++; break;
+                case LEFT:  nextCol--; break;
+                case RIGHT: nextCol++; break;
+                default: return false; // Should not happen
             }
-        } else {
-            switch (direction) {
-                case UP -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if (coordinate.getRow() == 0 || (board[coordinate.getRow()-1][coordinate.getCol()] != '.' && board[coordinate.getRow()-1][coordinate.getCol()] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
+
+            // Check bounds
+            if (nextRow < 0 || nextRow >= trow || nextCol < 0 || nextCol >= tcol) {
+                return false; // Moved out of bounds
+            }
+
+            // Check content of the target cell
+            char targetCell = board[nextRow][nextCol];
+
+            if (targetCell == piece.getName()) { // Trying to move into itself
+                continue; // This part of the piece is fine, check other parts
+            }
+
+            if (piece.isPrimary()) {
+                // Primary piece can move to '.' or 'K'
+                if (targetCell != '.' && targetCell != 'K') {
+                    return false; // Blocked by another piece
                 }
-                case DOWN -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if (coordinate.getRow() == trow-1 || (board[coordinate.getRow()+1][coordinate.getCol()] != '.' && board[coordinate.getRow()+1][coordinate.getCol()] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                case LEFT -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if (coordinate.getCol() == 0 ||(board[coordinate.getRow()][coordinate.getCol()-1] != '.' && board[coordinate.getRow()][coordinate.getCol()-1] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                case RIGHT -> {
-                    for (Coordinate coordinate : piece.getCoordinates()) {
-                        if (coordinate.getCol() == tcol-1 || (board[coordinate.getRow()][coordinate.getCol()+1] != '.' && board[coordinate.getRow()][coordinate.getCol()+1] != piece.getName())) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                default -> {
-                    return false;
+            } else {
+                // Other pieces can only move to '.'
+                if (targetCell != '.') {
+                    return false; // Blocked by another piece or exit
                 }
             }
         }
-
-
-        // switch (direction) {
-        //     case UP -> {
-        //         for (Coordinate coordinate : piece.getCoordinates()) {
-        //             if (coordinate.getRow() == 0 || (board[coordinate.getRow()-1][coordinate.getCol()] != '.' && board[coordinate.getRow()-1][coordinate.getCol()] != piece.getName())) {
-        //                 return false;
-        //             }
-        //         }
-        //         return true;
-        //     }
-        //     case DOWN -> {
-        //         for (Coordinate coordinate : piece.getCoordinates()) {
-        //             if (coordinate.getRow() == row-1 || (board[coordinate.getRow()+1][coordinate.getCol()] != '.' && board[coordinate.getRow()+1][coordinate.getCol()] != piece.getName())) {
-        //                 return false;
-        //             }
-        //         }
-        //         return true;
-        //     }
-        //     case LEFT -> {
-        //         for (Coordinate coordinate : piece.getCoordinates()) {
-        //             if (coordinate.getCol() == 0 || (board[coordinate.getRow()][coordinate.getCol()-1] != '.' && board[coordinate.getRow()][coordinate.getCol()-1] != piece.getName())) {
-        //                 return false;
-        //             }
-        //         }
-        //         return true;
-        //     }
-        //     case RIGHT -> {
-        //         for (Coordinate coordinate : piece.getCoordinates()) {
-        //             if (coordinate.getCol() == col-1 || (board[coordinate.getRow()][coordinate.getCol()+1] != '.' && board[coordinate.getRow()][coordinate.getCol()+1] != piece.getName())) {
-        //                 return false;
-        //             }
-        //         }
-        //         return true;
-        //     }
-        //     default -> {
-        //         return false;
-        //     }
-        // }
+        return true; // All parts of the piece can move to valid locations
     }
 
     private boolean isBetween(int value, int bound1, int bound2) {
@@ -242,35 +194,43 @@ public class BoardState {
 
     public List<BoardState> getPossibleMoves() {
         List<BoardState> possibleMoves = new ArrayList<>();
-        for (Piece piece : pieces) {
+        for (Piece piece : this.pieces) { // Iterate through a stable list of pieces
+            Move.Direction[] directionsToTry;
             if (piece.isHorizontal()) {
-                for (Move.Direction direction : new Move.Direction[]{Move.Direction.LEFT, Move.Direction.RIGHT}) {
-                    BoardState newState = movePiece(piece, direction);
-                    while (newState != null) {
-                        possibleMoves.add(newState);
-                        newState = newState.movePiece(piece, direction);
-                        if(newState == null) break;
-                        newState.setLastMove(this.lastMove);
-                        newState.setDepth(this.depth + 1);
-                        // update last move supaya tetap refer ke parent, dan hanya terhitung 1 langkah saja
-                    }
-                }
+                directionsToTry = new Move.Direction[]{Move.Direction.LEFT, Move.Direction.RIGHT};
             } else {
-                for (Move.Direction direction : new Move.Direction[]{Move.Direction.UP, Move.Direction.DOWN}) {
-                    BoardState newState = movePiece(piece, direction);
-                    while (newState != null) {
-                        possibleMoves.add(newState);
-                        newState = newState.movePiece(piece, direction);
-                        if(newState == null) break;
-                        // update last move supaya tetap refer ke parent, dan hanya terhitung 1 langkah saja
-                        newState.setLastMove(this.lastMove);
-                        newState.setDepth(this.depth + 1);
-                    }
+                directionsToTry = new Move.Direction[]{Move.Direction.UP, Move.Direction.DOWN};
+            }
+
+            for (Move.Direction direction : directionsToTry) {
+                // Try to move the piece one step in the current direction
+                BoardState nextState = movePiece(piece, direction);
+                if (nextState != null) {
+                    possibleMoves.add(nextState);
                 }
+
+                // If you want to allow pieces to slide multiple steps until they hit something,
+                // that logic needs to be more carefully implemented.
+                // The current approach is to generate single-step moves.
+                // If multi-step slides are intended as single "moves" in your game's definition:
+                /*
+                BoardState currentState = this;
+                BoardState nextSlideStep = currentState.movePiece(piece, direction);
+                while (nextSlideStep != null) {
+                    possibleMoves.add(nextSlideStep); // Add this intermediate slide step
+                    currentState = nextSlideStep;     // The new base for the next slide
+                    nextSlideStep = currentState.movePiece(piece, direction); // Try to slide further
+                }
+                */
+                // The above commented block is one way to interpret multi-step slides.
+                // However, the original loop was flawed. For now, let's stick to single step moves.
+                // If you need multi-step moves, the `movePiece` would need to return the final state
+                // after sliding, or this loop needs careful management of parent states for the `Move` object.
             }
         }
         return possibleMoves;
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -302,8 +262,8 @@ public class BoardState {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
                 sb.append(board[i][j]);
             }
         }
@@ -371,6 +331,7 @@ public class BoardState {
     }
     public void setHeuristic(Heuristic heuristic) {
         this.heuristic = heuristic;
+        this.value = heuristic.calcValue(this);
     }
     
 }

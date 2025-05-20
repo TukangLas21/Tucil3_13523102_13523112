@@ -171,19 +171,6 @@ public class Controller {
             }
         }
 
-        
-
-        // TODO: Execute solver with selected algorithm
-        // Pseudocode:
-        /*
-        1. Start timer
-        2. Run selected algorithm
-        3. Record:
-           - movesLabel.setText(solution.size())
-           - runtimeLabel.setText(endTime - startTime)
-           - nodeCountLabel.setText(algorithm.getNodesVisited())
-        4. Start animation
-        */
         long startTime = System.currentTimeMillis();
 
         solver(algorithm, initialState);
@@ -191,49 +178,106 @@ public class Controller {
             showAlert("Error", "No solution found");
             return;
         }
+        // showAlert("Mantap!", "Berhasil pak!");
 
         long endTime = System.currentTimeMillis();
         long runTime = endTime - startTime;
         runtimeLabel.setText(String.valueOf(runTime));
+        moveCountLabel.setText(String.valueOf(solutionPath.size()));
+        nodeCountLabel.setText(String.valueOf(nodeCount));
+
+        if (!solutionPath.isEmpty()) {
+            displayBoard(solutionPath.get(0)); 
+        }
+        
         animate();
-        timeline.play();
+        if (timeline != null) { 
+           timeline.play(); 
+        }
     }
 
     private void animate() {
-        if (timeline != null) timeline.stop();
+        if (solutionPath == null || solutionPath.size() <= 1) {
+            return;
+        }
+
+        if (timeline != null) {
+            timeline.stop();
+        }
 
         timeline = new Timeline();
         stateIdx = 0;
 
         for (int i = 1; i < solutionPath.size(); i++) {
-            int toIdx = i;
+            int toIdx = i; 
 
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.5 * (i+1)), e -> animateTransition(toIdx));
+            KeyFrame frame = new KeyFrame(Duration.seconds(0.5 * i), e -> {
+                animateTransition(toIdx);
+            });
             timeline.getKeyFrames().add(frame);
         }
+
+        timeline.setOnFinished(event -> {
+            if (solutionPath != null && !solutionPath.isEmpty()) {
+                stateIdx = solutionPath.size() - 1;
+            }
+            System.out.println("Animation finished.");
+        });
     }
 
-    private void animateTransition(int toIdx) {
-        BoardState to = solutionPath.get(toIdx);
+    private void animateTransition(int toStateIndex) {
+        if (solutionPath == null || toStateIndex < 1 || toStateIndex >= solutionPath.size()) {
+            return; // Invalid index
+        }
 
-        Move move = to.getLastMove();
+        BoardState targetState = solutionPath.get(toStateIndex);
 
-        Rectangle rect = findPieceBlock(move.getPieceName());
+        Move move = targetState.getLastMove(); // The move that led to targetState
 
-        TranslateTransition moveAnimation = new TranslateTransition(Duration.seconds(0.5), rect);
+        if (move == null) {
+            System.err.println("Error: Move is null for state at index " + toStateIndex);
+            displayBoard(targetState);
+            return;
+        }
 
-        // TODO: tambahin distance
-        if (move.getDirection() == Move.Direction.LEFT || move.getDirection() == Move.Direction.RIGHT) {
-            moveAnimation.setByX(move.getDirection() == Move.Direction.LEFT ? -cellSize : cellSize);
-        } else {
-            moveAnimation.setByY(move.getDirection() == Move.Direction.UP ? -cellSize : cellSize);
+        Rectangle pieceRect = findPieceBlock(move.getPieceName());
+
+        if (pieceRect == null) {
+            System.err.println("Error: Could not find piece " + move.getPieceName() + " on the game board for animation.");
+            displayBoard(targetState);
+            return;
+        }
+
+        TranslateTransition moveAnimation = new TranslateTransition(Duration.seconds(0.2), pieceRect);
+        switch (move.getDirection()) {
+            case LEFT:
+                moveAnimation.setByX(-cellSize);
+                break;
+            case RIGHT:
+                moveAnimation.setByX(cellSize);
+                break;
+            case UP:
+                moveAnimation.setByY(-cellSize);
+                break;
+            case DOWN:
+                moveAnimation.setByY(cellSize);
+                break;
         }
 
         moveAnimation.setOnFinished(event -> {
-            displayBoard(to);
+            displayBoard(targetState);
         });
 
         moveAnimation.play();
+    }
+
+    private Rectangle findPieceBlock(char pieceName) {
+        for (Node node : gameBoard.getChildren()) {
+            if (node instanceof Rectangle && node.getUserData() != null && node.getUserData().equals(pieceName)) {
+                return (Rectangle) node;
+            }
+        }
+        return null; 
     }
 
     private void solver(Algorithm algorithm, BoardState initialState) {
@@ -277,15 +321,6 @@ public class Controller {
         } 
     }
 
-    private Rectangle findPieceBlock(char pieceName) {
-        for (Node node : gameBoard.getChildren()) {
-            if (node instanceof Rectangle && node.getUserData().equals(pieceName)) {
-                return (Rectangle) node;
-            }
-        }
-        throw new IllegalArgumentException("Piece not found: " + pieceName);
-    }
-
     private boolean isPathValid(String path) {
         File file = new File(path);
         return file.exists() && file.isFile() && file.canRead();
@@ -294,6 +329,10 @@ public class Controller {
     @FXML
     private void handleReset() {
         configPathField.clear();
+        solutionPath = null;
+        stateIdx = 0;
+        nodeCount = 0;
+        initialState = null;
         moveCountLabel.setText("0");
         runtimeLabel.setText("0.0");
         nodeCountLabel.setText("0");
