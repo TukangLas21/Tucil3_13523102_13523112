@@ -1,8 +1,8 @@
 6 6
 6
-..ABBB
-..A..C
-PPA..CK
-.DD..E
-.....E
-..FFFE
+ EFFF..
+ E.....
+ E..DD.
+KC..APP
+ C..A..
+ BBBA..

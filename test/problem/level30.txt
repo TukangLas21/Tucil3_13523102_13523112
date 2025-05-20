@@ -1,8 +1,9 @@
 6 6
 11
-.ABBC.
-.ADEC.
-PPDEC.K
-FGHII.
-FGHJ..
-FLLJ..
+FFFP..
+LGGPAA
+LHHDDB
+JJIEEB
+..ICCC
+......
+   K
