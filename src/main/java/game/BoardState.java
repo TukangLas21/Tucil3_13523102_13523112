@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import utils.Utils;
 
 /* Kelas yang merepresentasikan state papan pada permainan */
@@ -15,6 +16,7 @@ public class BoardState {
     private final Heuristic heuristic; // heuristik yang digunakan
     private int value; // nilai heuristik
     private Move lastMove; // langkah terakhir yang diambil
+    private int depth; // depth node
 
     // Konstruktor
     public BoardState() {
@@ -24,11 +26,12 @@ public class BoardState {
         this.exitCoordinate = null;
         this.pieces = null;
         this.primaryPiece = null;
-        this.heuristic = new DistanceToExitHeuristic(); // default heuristik
+        this.heuristic = null;
         this.value = 0;
         this.lastMove = null;
+        this.depth = 0;
     }
-    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Heuristic heuristic, Move lastMove) {
+    public BoardState(int row, int col, char[][] board, List<Piece> pieces, Coordinate exitCoordinate, Piece primaryPiece, Heuristic heuristic, Move lastMove, int depth) {
         this.row = row;
         this.col = col;
         this.board = board;
@@ -37,8 +40,10 @@ public class BoardState {
         this.primaryPiece = primaryPiece;
         this.heuristic = heuristic;
         BoardState self = this;
-        this.value = heuristic.calcValue(self);
+        this.value = 0;
+        if(this.heuristic != null) this.value = heuristic.calcValue(self);
         this.lastMove = lastMove;
+        this.depth = depth;
     }
 
     // cek apakah state sudah mencapai tujuan
@@ -62,7 +67,7 @@ public class BoardState {
 
         char[][] newBoard = buildBoard(this.pieces);
 
-        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, this.heuristic, new Move(piece.getName(), direction, this));
+        return new BoardState(this.row, this.col, newBoard, this.pieces, this.exitCoordinate, this.primaryPiece, this.heuristic, new Move(piece.getName(), direction, this), this.depth+1);
     }
 
     // membuat board dari list of pieces
@@ -233,13 +238,18 @@ public class BoardState {
     public Piece getPrimaryPiece() {
         return primaryPiece;
     }
+    public Heuristic getHeuristic() {
+        return heuristic;
+    }
     public int getValue() {
         return value;
     }
     public Move getLastMove() {
         return lastMove;
     }
-
+    public int getDepth() {
+        return depth;
+    }
     // Setter
     public void setRow(int row) {
         this.row = row;
@@ -264,6 +274,9 @@ public class BoardState {
     }
     public void setLastMove(Move lastMove) {
         this.lastMove = lastMove;
+    }
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
     
 }
