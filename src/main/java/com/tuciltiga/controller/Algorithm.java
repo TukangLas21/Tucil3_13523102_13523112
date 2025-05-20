@@ -1,9 +1,9 @@
 package com.tuciltiga.controller;
 
 public enum Algorithm {
-    GREEDY_BFS("Greedy Best-First Search"),
-    UNIFORM_COST("Uniform Cost Search"),
-    A_STAR("A* Search"),
+    GBFS("Greedy Best-First Search"),
+    UCS("Uniform Cost Search"),
+    ASTAR("A* Search"),
     IDA("Iterative Deepening A* Search");
 
     private final String displayName;

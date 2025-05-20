@@ -3,12 +3,18 @@ package com.tuciltiga.controller;
 import java.io.File;
 import java.util.List;
 
+import game.AStar;
+import game.BlockingPiecesHeuristic;
 import game.BoardState;
-import game.Piece;
+import game.DistanceToExitHeuristic;
+import game.GBFS;
+import game.IDAStar;
 import game.Move;
+import game.Piece;
+import game.UCS;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -19,9 +25,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
-import utils.IOHandler;
-
 import javafx.util.Duration;
+import utils.IOHandler;
 
 public class Controller {
     @FXML 
@@ -48,9 +53,12 @@ public class Controller {
     @FXML
     Timeline timeline;
 
+    BoardState initialState;
+
     private int stateIdx = 0;
 
     private List<BoardState> solutionPath;
+    private int nodeCount;
 
     private final int cellSize = 50;
 
@@ -79,9 +87,9 @@ public class Controller {
 
     private void loadBoard(File configFile) {
         try {
-            BoardState boardState = IOHandler.convertInput(configFile);
+            initialState = IOHandler.convertInput(configFile);
             gameBoard.getChildren().clear();
-            displayBoard(boardState);
+            displayBoard(initialState);
         } catch (Exception e) {
             showAlert("Error", "Failed to load board configuration: " + e.getMessage());
         }
@@ -137,6 +145,34 @@ public class Controller {
             return;
         }
 
+        if (initialState == null) {
+            showAlert("Error", "No board configuration loaded");
+            return;
+        }
+
+        if (algorithm == null) {
+            showAlert("Error", "Please select an algorithm");
+            return;
+        }
+
+        if (heuristic == null) {
+            showAlert("Error", "Please select a heuristic");
+            return;
+        }
+
+        switch (heuristic) {
+            case DistanceToExit -> {
+                initialState.setHeuristic(new DistanceToExitHeuristic());
+                break;
+            }
+            case BlockingVehicles -> {
+                initialState.setHeuristic(new BlockingPiecesHeuristic());
+                break;
+            }
+        }
+
+        
+
         // TODO: Execute solver with selected algorithm
         // Pseudocode:
         /*
@@ -150,7 +186,11 @@ public class Controller {
         */
         long startTime = System.currentTimeMillis();
 
-
+        solver(algorithm, initialState);
+        if (solutionPath == null) {
+            showAlert("Error", "No solution found");
+            return;
+        }
 
         long endTime = System.currentTimeMillis();
         long runTime = endTime - startTime;
@@ -194,6 +234,47 @@ public class Controller {
         });
 
         moveAnimation.play();
+    }
+
+    private void solver(Algorithm algorithm, BoardState initialState) {
+        switch (algorithm) {
+            case GBFS -> {
+                Object[] result = GBFS.solve(initialState);
+                if (result == null) {
+                    showAlert("Error", "No solution found");
+                    return;
+                }
+                solutionPath = (List<BoardState>) result[0];
+                nodeCount = (int) result[1];
+            }
+            case ASTAR -> {
+                Object[] result = AStar.solve(initialState);
+                if (result == null) {
+                    showAlert("Error", "No solution found");
+                    return;
+                }
+                solutionPath = (List<BoardState>) result[0];
+                nodeCount = (int) result[1];
+            }
+            case UCS -> {
+                Object[] result = UCS.solve(initialState);
+                if (result == null) {
+                    showAlert("Error", "No solution found");
+                    return;
+                }
+                solutionPath = (List<BoardState>) result[0];
+                nodeCount = (int) result[1];
+            }
+            case IDA -> {
+                Object[] result = IDAStar.solve(initialState);
+                if (result == null) {
+                    showAlert("Error", "No solution found");
+                    return;
+                }
+                solutionPath = (List<BoardState>) result[0];
+                nodeCount = (int) result[1];
+            }
+        } 
     }
 
     private Rectangle findPieceBlock(char pieceName) {

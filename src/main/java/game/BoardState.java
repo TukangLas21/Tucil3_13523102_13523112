@@ -13,7 +13,7 @@ public class BoardState {
     private Coordinate exitCoordinate; // koordinat keluar
     private List<Piece> pieces; // list piece
     private Piece primaryPiece; // piece utama
-    private final Heuristic heuristic; // heuristik yang digunakan
+    private Heuristic heuristic; // heuristik yang digunakan
     private int value; // nilai heuristik
     private Move lastMove; // langkah terakhir yang diambil
     private int depth; // depth node
@@ -90,43 +90,124 @@ public class BoardState {
 
     // cek apakah piece bisa bergerak ke arah yang diinginkan
     public boolean isValidMove(Piece piece, Move.Direction direction) {
-        switch (direction) {
-            case UP -> {
-                for (Coordinate coordinate : piece.getCoordinates()) {
-                    if (coordinate.getRow() == 0 || (board[coordinate.getRow()-1][coordinate.getCol()] != '.' && board[coordinate.getRow()-1][coordinate.getCol()] != piece.getName())) {
-                        return false;
+        int trow = board.length;
+        int tcol = board[0].length;
+        if (piece.isPrimary()) {
+            switch (direction) {
+                case UP -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if ((coordinate.getRow() == 0) || ((board[coordinate.getRow()-1][coordinate.getCol()] != '.' || board[coordinate.getRow()-1][coordinate.getCol()] != 'K') && board[coordinate.getRow()-1][coordinate.getCol()] != piece.getName())) {
+                            return false;
+                        }
                     }
+                    return true;
                 }
-                return true;
-            }
-            case DOWN -> {
-                for (Coordinate coordinate : piece.getCoordinates()) {
-                    if (coordinate.getRow() == row-1 || (board[coordinate.getRow()+1][coordinate.getCol()] != '.' && board[coordinate.getRow()+1][coordinate.getCol()] != piece.getName())) {
-                        return false;
+                case DOWN -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if ((coordinate.getRow() == trow-1) || ((board[coordinate.getRow()+1][coordinate.getCol()] != '.' || board[coordinate.getRow()+1][coordinate.getCol()] != 'K') && board[coordinate.getRow()+1][coordinate.getCol()] != piece.getName())) {
+                            return false;
+                        }
                     }
+                    return true;
                 }
-                return true;
-            }
-            case LEFT -> {
-                for (Coordinate coordinate : piece.getCoordinates()) {
-                    if (coordinate.getCol() == 0 || (board[coordinate.getRow()][coordinate.getCol()-1] != '.' && board[coordinate.getRow()][coordinate.getCol()-1] != piece.getName())) {
-                        return false;
+                case LEFT -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if ((coordinate.getCol() == 0) || ((board[coordinate.getRow()][coordinate.getCol()-1] != '.'  || board[coordinate.getRow()][coordinate.getCol()-1] != 'K') && board[coordinate.getRow()][coordinate.getCol()-1] != piece.getName())) {
+                            return false;
+                        }
                     }
+                    return true;
                 }
-                return true;
-            }
-            case RIGHT -> {
-                for (Coordinate coordinate : piece.getCoordinates()) {
-                    if (coordinate.getCol() == col-1 || (board[coordinate.getRow()][coordinate.getCol()+1] != '.' && board[coordinate.getRow()][coordinate.getCol()+1] != piece.getName())) {
-                        return false;
+                case RIGHT -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if ((coordinate.getCol() == tcol-1) || ((board[coordinate.getRow()][coordinate.getCol()+1] != '.' || board[coordinate.getRow()][coordinate.getCol()+1] != 'K') && board[coordinate.getRow()][coordinate.getCol()+1] != piece.getName())) {
+                            return false;
+                        }
                     }
+                    return true;
                 }
-                return true;
+                default -> {
+                    return false;
+                }
             }
-            default -> {
-                return false;
+        } else {
+            switch (direction) {
+                case UP -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if (coordinate.getRow() == 0 || (board[coordinate.getRow()-1][coordinate.getCol()] != '.' && board[coordinate.getRow()-1][coordinate.getCol()] != piece.getName())) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                case DOWN -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if (coordinate.getRow() == trow-1 || (board[coordinate.getRow()+1][coordinate.getCol()] != '.' && board[coordinate.getRow()+1][coordinate.getCol()] != piece.getName())) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                case LEFT -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if (coordinate.getCol() == 0 ||(board[coordinate.getRow()][coordinate.getCol()-1] != '.' && board[coordinate.getRow()][coordinate.getCol()-1] != piece.getName())) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                case RIGHT -> {
+                    for (Coordinate coordinate : piece.getCoordinates()) {
+                        if (coordinate.getCol() == tcol-1 || (board[coordinate.getRow()][coordinate.getCol()+1] != '.' && board[coordinate.getRow()][coordinate.getCol()+1] != piece.getName())) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                default -> {
+                    return false;
+                }
             }
         }
+
+
+        // switch (direction) {
+        //     case UP -> {
+        //         for (Coordinate coordinate : piece.getCoordinates()) {
+        //             if (coordinate.getRow() == 0 || (board[coordinate.getRow()-1][coordinate.getCol()] != '.' && board[coordinate.getRow()-1][coordinate.getCol()] != piece.getName())) {
+        //                 return false;
+        //             }
+        //         }
+        //         return true;
+        //     }
+        //     case DOWN -> {
+        //         for (Coordinate coordinate : piece.getCoordinates()) {
+        //             if (coordinate.getRow() == row-1 || (board[coordinate.getRow()+1][coordinate.getCol()] != '.' && board[coordinate.getRow()+1][coordinate.getCol()] != piece.getName())) {
+        //                 return false;
+        //             }
+        //         }
+        //         return true;
+        //     }
+        //     case LEFT -> {
+        //         for (Coordinate coordinate : piece.getCoordinates()) {
+        //             if (coordinate.getCol() == 0 || (board[coordinate.getRow()][coordinate.getCol()-1] != '.' && board[coordinate.getRow()][coordinate.getCol()-1] != piece.getName())) {
+        //                 return false;
+        //             }
+        //         }
+        //         return true;
+        //     }
+        //     case RIGHT -> {
+        //         for (Coordinate coordinate : piece.getCoordinates()) {
+        //             if (coordinate.getCol() == col-1 || (board[coordinate.getRow()][coordinate.getCol()+1] != '.' && board[coordinate.getRow()][coordinate.getCol()+1] != piece.getName())) {
+        //                 return false;
+        //             }
+        //         }
+        //         return true;
+        //     }
+        //     default -> {
+        //         return false;
+        //     }
+        // }
     }
 
     private boolean isBetween(int value, int bound1, int bound2) {
@@ -287,6 +368,9 @@ public class BoardState {
     }
     public void setDepth(int depth) {
         this.depth = depth;
+    }
+    public void setHeuristic(Heuristic heuristic) {
+        this.heuristic = heuristic;
     }
     
 }
