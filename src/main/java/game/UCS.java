@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-/* Kelas untuk solver menggunakan algoritma Greedy Best First Search */
-public class GBFS extends Algorithm {
+/* Kelas untuk solver menggunakan algoritma UCS */
+public class UCS extends Algorithm {
     // Fungsi solver utama, mengembalikan array of Object berisi jalur dan jumlah gerakan
     public static Object[] solve(BoardState initialState) {
         BoardState currentState = initialState; // state awal
 
         // PriorityQueue untuk menyimpan state berdasarkan nilai heuristik
-        PriorityQueue<BoardState> queue = new PriorityQueue<>(Comparator.comparingInt(BoardState::getValue));
+        PriorityQueue<BoardState> queue = new PriorityQueue<>(Comparator.comparingInt(BoardState::getDepth));
         queue.add(currentState);
 
         // Set berisi state yang sudah dikunjungi

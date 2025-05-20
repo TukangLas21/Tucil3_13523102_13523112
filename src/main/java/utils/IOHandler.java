@@ -102,7 +102,7 @@ public class IOHandler {
                 System.out.println(piece);
             }
             // buat BoardState dengan papan lengkap dari awal
-            return new BoardState(row, col, newBoard, pieces, exitCoordinate, primaryPiece, null);
+            return new BoardState(row, col, newBoard, pieces, exitCoordinate, primaryPiece, null, null, 0);
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
             return null;
