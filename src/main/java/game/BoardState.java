@@ -94,8 +94,10 @@ public class BoardState {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 if (board[i][j] == 'K') {
-                    newBoard[i][j] = 'K'; // Exit point
-                }
+                    newBoard[i][j] = 'K'; 
+                } else if (!Character.isLetter(board[i][j]) && board[i][j] != '.') {
+                    newBoard[i][j] = ' '; 
+                } 
             }
         }
 
@@ -120,14 +122,21 @@ public class BoardState {
             }
         }
 
-
         for (Piece piece : pieces) {
             for (Coordinate coordinate : piece.getCoordinates()) {
                 newBoard[coordinate.getRow()][coordinate.getCol()] = piece.getName();
             }
         }
-
         return newBoard;
+    }
+
+    public static void printBoard(char[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                System.out.print(board[i][j]);
+            }
+            System.out.println();
+        }
     }
 
     // cek apakah piece bisa bergerak ke arah yang diinginkan
@@ -217,6 +226,7 @@ public class BoardState {
                 }
             }
         }
+
         return possibleMoves;
     }
 
@@ -243,8 +253,8 @@ public class BoardState {
         if (!(obj instanceof BoardState)) return false;
         BoardState other = (BoardState) obj;
         if (this.row != other.row || this.col != other.col) return false;
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
                 if (this.board[i][j] != other.board[i][j]) return false;
             }
         }
@@ -256,8 +266,8 @@ public class BoardState {
         int result = 1;
         result = 31 * result + row;
         result = 31 * result + col;
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
                 result = 31 * result + board[i][j];
             }
         }
@@ -271,6 +281,7 @@ public class BoardState {
             for (int j = 0; j < board[i].length; j++) {
                 sb.append(board[i][j]);
             }
+            sb.append("\n");
         }
         return sb.toString();
     }

@@ -61,16 +61,16 @@ public class IOHandler {
             int tempRow = 0;
             while (line != null) {
                 String[] linePieces = line.split("");
+                if (tempRow >= tempBoard.length) {
+                    throw new IOException("baris kelebihan");
+                }
                 for (int i = 0; i < linePieces.length; i++) {
                     if (i >= linePieces.length) {
-                        throw new IOException("kolom kelebihan le");
+                        throw new IOException("kolom kelebihan");
                     }
                     tempBoard[tempRow][i] = linePieces[i].charAt(0);
                 }
                 tempRow++;
-                if (tempRow >= tempBoard.length) {
-                    throw new IOException("baris kelebihan le");
-                }
                 line = reader.readLine();
             }
 
@@ -142,6 +142,10 @@ public class IOHandler {
                     }
                 }
 
+                if (coordinates.isEmpty() || coordinates.size() < 2 || coordinates.size() > 3) {
+                    throw new IllegalArgumentException("Invalid piece coordinates for piece: " + c);
+                }
+
                 boolean isPrimary = c == 'P';
                 boolean isHorizontal = Utils.isPieceHorizontal(coordinates);
                 pieces.add(new Piece(c, coordinates, isPrimary, isHorizontal));
@@ -149,6 +153,10 @@ public class IOHandler {
                 processedPieces.add(c);
                 currentCount++;
             }
+        }
+
+        if (currentCount != targetCount) {
+            throw new IllegalArgumentException("Invalid number of pieces found. Expected: " + targetCount + ", Found: " + currentCount);
         }
         
         return pieces;

@@ -95,7 +95,7 @@ public class Controller {
     }
 
     private void displayBoard(BoardState boardState) {
-        gameBoard.setPrefSize(boardState.getCol() * cellSize, boardState.getRow() * cellSize);
+        gameBoard.setPrefSize(boardState.getBoard()[0].length * cellSize, boardState.getBoard().length * cellSize);
         gameBoard.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px;");
         gameBoard.getChildren().clear();
 
@@ -332,8 +332,6 @@ public class Controller {
                 }
                 solutionPath = (List<BoardState>) result[0];
                 nodeCount = (int) result[1];
-                System.out.println("Count Node: " + nodeCount);
-                System.out.println("Count Node: " + result[1]);
             }
             case ASTAR -> {
                 Object[] result = AStar.solve(initialState);

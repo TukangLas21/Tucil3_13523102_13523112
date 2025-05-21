@@ -31,12 +31,8 @@ public class GBFS extends Algorithm {
         while (!queue.isEmpty()) {
             currentState = queue.poll(); // cek state terdepan
             countNode++; // increment jumlah node
-            System.out.println("Node ke-" + countNode); // tampilkan node yang sedang dieksplorasi
-            System.out.println(currentState.getValue()); // tampilkan state yang sedang dieksplorasi
-            System.out.println(currentState);
 
             if (currentState.isGoal()) {
-                System.out.println(countNode);
                 return new Object[]{reconstructPath(parentMap, currentState), countNode}; // jika sudah mencapai tujuan, kembalikan jalur
             }
 
@@ -46,9 +42,9 @@ public class GBFS extends Algorithm {
             // iterasi setiap langkah dan tambahkan jika belum dikunjungi
             for (BoardState nextState : possibleMoves) {
                 if (!visited.contains(nextState)) {
+                    queue.add(nextState);
                     visited.add(nextState);
                     parentMap.put(nextState, currentState);
-                    queue.add(nextState);
                 }
             }
         }
