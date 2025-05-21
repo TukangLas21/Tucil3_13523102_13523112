@@ -1,0 +1,144 @@
+Papan Awal
+EFFF..
+E.....
+E..DD.
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 1: D-kanan
+EFFF..
+E.....
+E...DD
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 2: A-atas
+EFFF..
+E.....
+E..ADD
+KC..APP
+C..A..
+BBB...
+
+Gerakan 3: B-kanan
+EFFF..
+E.....
+E..ADD
+KC..APP
+C..A..
+.BBB..
+
+Gerakan 4: C-bawah
+EFFF..
+E.....
+E..ADD
+K...APP
+C..A..
+CBBB..
+
+Gerakan 5: E-bawah
+.FFF..
+E.....
+E..ADD
+KE..APP
+C..A..
+CBBB..
+
+Gerakan 6: A-atas
+.FFF..
+E..A..
+E..ADD
+KE..APP
+C.....
+CBBB..
+
+Gerakan 7: F-kiri
+FFF...
+E..A..
+E..ADD
+KE..APP
+C.....
+CBBB..
+
+Gerakan 8: A-atas
+FFFA..
+E..A..
+E..ADD
+KE...PP
+C.....
+CBBB..
+
+Gerakan 9: P-kiri
+FFFA..
+E..A..
+E..ADD
+KE..PP.
+C.....
+CBBB..
+
+Gerakan 10: P-kiri
+FFFA..
+E..A..
+E..ADD
+KE.PP..
+C.....
+CBBB..
+
+Gerakan 11: P-kiri
+FFFA..
+E..A..
+E..ADD
+KEPP...
+C.....
+CBBB..
+
+Gerakan 12: A-bawah
+FFF...
+E..A..
+E..ADD
+KEPPA..
+C.....
+CBBB..
+
+Gerakan 13: F-kanan
+.FFF..
+E..A..
+E..ADD
+KEPPA..
+C.....
+CBBB..
+
+Gerakan 14: E-atas
+EFFF..
+E..A..
+E..ADD
+K.PPA..
+C.....
+CBBB..
+
+Gerakan 15: P-kiri
+EFFF..
+E..A..
+E..ADD
+KPP.A..
+C.....
+CBBB..
+
+Gerakan 16: P-kiri
+EFFF..
+E..A..
+E..ADD
+PP..A..
+C.....
+CBBB..
+
+Gerakan 17: P-kiri
+EFFF..
+E..A..
+E..ADD
+P...A..
+C.....
+CBBB..
+

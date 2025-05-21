@@ -1,0 +1,248 @@
+Papan Awal
+EFFF..
+E.....
+E..DD.
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 1: F-kanan
+E.FFF.
+E.....
+E..DD.
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 2: F-kanan
+E..FFF
+E.....
+E..DD.
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 3: D-kiri
+E..FFF
+E.....
+E.DD..
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 4: F-kiri
+E.FFF.
+E.....
+E.DD..
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 5: F-kiri
+EFFF..
+E.....
+E.DD..
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 6: D-kiri
+EFFF..
+E.....
+EDD...
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 7: F-kanan
+E.FFF.
+E.....
+EDD...
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 8: F-kanan
+E..FFF
+E.....
+EDD...
+KC..APP
+C..A..
+BBBA..
+
+Gerakan 9: A-atas
+E..FFF
+E.....
+EDDA..
+KC..APP
+C..A..
+BBB...
+
+Gerakan 10: F-kiri
+E.FFF.
+E.....
+EDDA..
+KC..APP
+C..A..
+BBB...
+
+Gerakan 11: F-kiri
+EFFF..
+E.....
+EDDA..
+KC..APP
+C..A..
+BBB...
+
+Gerakan 12: A-atas
+EFFF..
+E..A..
+EDDA..
+KC..APP
+C.....
+BBB...
+
+Gerakan 13: F-kanan
+E.FFF.
+E..A..
+EDDA..
+KC..APP
+C.....
+BBB...
+
+Gerakan 14: F-kanan
+E..FFF
+E..A..
+EDDA..
+KC..APP
+C.....
+BBB...
+
+Gerakan 15: B-kanan
+E..FFF
+E..A..
+EDDA..
+KC..APP
+C.....
+.BBB..
+
+Gerakan 16: F-kiri
+E.FFF.
+E..A..
+EDDA..
+KC..APP
+C.....
+.BBB..
+
+Gerakan 17: F-kiri
+EFFF..
+E..A..
+EDDA..
+KC..APP
+C.....
+.BBB..
+
+Gerakan 18: C-bawah
+EFFF..
+E..A..
+EDDA..
+K...APP
+C.....
+CBBB..
+
+Gerakan 19: E-bawah
+.FFF..
+E..A..
+EDDA..
+KE..APP
+C.....
+CBBB..
+
+Gerakan 20: F-kiri
+FFF...
+E..A..
+EDDA..
+KE..APP
+C.....
+CBBB..
+
+Gerakan 21: A-atas
+FFFA..
+E..A..
+EDDA..
+KE...PP
+C.....
+CBBB..
+
+Gerakan 22: P-kiri
+FFFA..
+E..A..
+EDDA..
+KE..PP.
+C.....
+CBBB..
+
+Gerakan 23: P-kiri
+FFFA..
+E..A..
+EDDA..
+KE.PP..
+C.....
+CBBB..
+
+Gerakan 24: P-kiri
+FFFA..
+E..A..
+EDDA..
+KEPP...
+C.....
+CBBB..
+
+Gerakan 25: A-bawah
+FFF...
+E..A..
+EDDA..
+KEPPA..
+C.....
+CBBB..
+
+Gerakan 26: F-kanan
+.FFF..
+E..A..
+EDDA..
+KEPPA..
+C.....
+CBBB..
+
+Gerakan 27: E-atas
+EFFF..
+E..A..
+EDDA..
+K.PPA..
+C.....
+CBBB..
+
+Gerakan 28: P-kiri
+EFFF..
+E..A..
+EDDA..
+KPP.A..
+C.....
+CBBB..
+
+Gerakan 29: P-kiri
+EFFF..
+E..A..
+EDDA..
+PP..A..
+C.....
+CBBB..
+
+Gerakan 30: P-kiri
+EFFF..
+E..A..
+EDDA..
+P...A..
+C.....
+CBBB..
+

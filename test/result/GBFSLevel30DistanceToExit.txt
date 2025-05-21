@@ -1,0 +1,405 @@
+Papan Awal
+FFFP..
+LGGPAA
+LHHDDB
+JJIEEB
+..ICCC
+......
+K
+
+Gerakan 1: I-bawah
+FFFP..
+LGGPAA
+LHHDDB
+JJ.EEB
+..ICCC
+..I...
+K
+
+Gerakan 2: J-kanan
+FFFP..
+LGGPAA
+LHHDDB
+.JJEEB
+..ICCC
+..I...
+K
+
+Gerakan 3: L-bawah
+FFFP..
+.GGPAA
+LHHDDB
+LJJEEB
+..ICCC
+..I...
+K
+
+Gerakan 4: L-bawah
+FFFP..
+.GGPAA
+.HHDDB
+LJJEEB
+L.ICCC
+..I...
+K
+
+Gerakan 5: H-kiri
+FFFP..
+.GGPAA
+HH.DDB
+LJJEEB
+L.ICCC
+..I...
+K
+
+Gerakan 6: D-kiri
+FFFP..
+.GGPAA
+HHDD.B
+LJJEEB
+L.ICCC
+..I...
+K
+
+Gerakan 7: L-bawah
+FFFP..
+.GGPAA
+HHDD.B
+.JJEEB
+L.ICCC
+L.I...
+K
+
+Gerakan 8: J-kiri
+FFFP..
+.GGPAA
+HHDD.B
+JJ.EEB
+L.ICCC
+L.I...
+K
+
+Gerakan 9: E-kiri
+FFFP..
+.GGPAA
+HHDD.B
+JJEE.B
+L.ICCC
+L.I...
+K
+
+Gerakan 10: D-kanan
+FFFP..
+.GGPAA
+HH.DDB
+JJEE.B
+L.ICCC
+L.I...
+K
+
+Gerakan 11: H-kanan
+FFFP..
+.GGPAA
+.HHDDB
+JJEE.B
+L.ICCC
+L.I...
+K
+
+Gerakan 12: E-kanan
+FFFP..
+.GGPAA
+.HHDDB
+JJ.EEB
+L.ICCC
+L.I...
+K
+
+Gerakan 13: I-atas
+FFFP..
+.GGPAA
+.HHDDB
+JJIEEB
+L.ICCC
+L.....
+K
+
+Gerakan 14: H-kiri
+FFFP..
+.GGPAA
+HH.DDB
+JJIEEB
+L.ICCC
+L.....
+K
+
+Gerakan 15: I-atas
+FFFP..
+.GGPAA
+HHIDDB
+JJIEEB
+L..CCC
+L.....
+K
+
+Gerakan 16: C-kiri
+FFFP..
+.GGPAA
+HHIDDB
+JJIEEB
+L.CCC.
+L.....
+K
+
+Gerakan 17: C-kiri
+FFFP..
+.GGPAA
+HHIDDB
+JJIEEB
+LCCC..
+L.....
+K
+
+Gerakan 18: B-bawah
+FFFP..
+.GGPAA
+HHIDD.
+JJIEEB
+LCCC.B
+L.....
+K
+
+Gerakan 19: B-bawah
+FFFP..
+.GGPAA
+HHIDD.
+JJIEE.
+LCCC.B
+L....B
+K
+
+Gerakan 20: C-kanan
+FFFP..
+.GGPAA
+HHIDD.
+JJIEE.
+L.CCCB
+L....B
+K
+
+Gerakan 21: E-kanan
+FFFP..
+.GGPAA
+HHIDD.
+JJI.EE
+L.CCCB
+L....B
+K
+
+Gerakan 22: D-kanan
+FFFP..
+.GGPAA
+HHI.DD
+JJI.EE
+L.CCCB
+L....B
+K
+
+Gerakan 23: P-bawah
+FFF...
+.GGPAA
+HHIPDD
+JJI.EE
+L.CCCB
+L....B
+K
+
+Gerakan 24: P-bawah
+FFF...
+.GG.AA
+HHIPDD
+JJIPEE
+L.CCCB
+L....B
+K
+
+Gerakan 25: A-kiri
+FFF...
+.GGAA.
+HHIPDD
+JJIPEE
+L.CCCB
+L....B
+K
+
+Gerakan 26: C-kiri
+FFF...
+.GGAA.
+HHIPDD
+JJIPEE
+LCCC.B
+L....B
+K
+
+Gerakan 27: G-kiri
+FFF...
+GG.AA.
+HHIPDD
+JJIPEE
+LCCC.B
+L....B
+K
+
+Gerakan 28: F-kanan
+.FFF..
+GG.AA.
+HHIPDD
+JJIPEE
+LCCC.B
+L....B
+K
+
+Gerakan 29: F-kanan
+..FFF.
+GG.AA.
+HHIPDD
+JJIPEE
+LCCC.B
+L....B
+K
+
+Gerakan 30: F-kanan
+...FFF
+GG.AA.
+HHIPDD
+JJIPEE
+LCCC.B
+L....B
+K
+
+Gerakan 31: I-atas
+...FFF
+GGIAA.
+HHIPDD
+JJ.PEE
+LCCC.B
+L....B
+K
+
+Gerakan 32: I-atas
+..IFFF
+GGIAA.
+HH.PDD
+JJ.PEE
+LCCC.B
+L....B
+K
+
+Gerakan 33: C-kanan
+..IFFF
+GGIAA.
+HH.PDD
+JJ.PEE
+L.CCCB
+L....B
+K
+
+Gerakan 34: J-kanan
+..IFFF
+GGIAA.
+HH.PDD
+.JJPEE
+L.CCCB
+L....B
+K
+
+Gerakan 35: A-kanan
+..IFFF
+GGI.AA
+HH.PDD
+.JJPEE
+L.CCCB
+L....B
+K
+
+Gerakan 36: H-kanan
+..IFFF
+GGI.AA
+.HHPDD
+.JJPEE
+L.CCCB
+L....B
+K
+
+Gerakan 37: L-atas
+..IFFF
+GGI.AA
+.HHPDD
+LJJPEE
+L.CCCB
+.....B
+K
+
+Gerakan 38: L-atas
+..IFFF
+GGI.AA
+LHHPDD
+LJJPEE
+..CCCB
+.....B
+K
+
+Gerakan 39: C-kiri
+..IFFF
+GGI.AA
+LHHPDD
+LJJPEE
+.CCC.B
+.....B
+K
+
+Gerakan 40: C-kiri
+..IFFF
+GGI.AA
+LHHPDD
+LJJPEE
+CCC..B
+.....B
+K
+
+Gerakan 41: P-bawah
+..IFFF
+GGI.AA
+LHH.DD
+LJJPEE
+CCCP.B
+.....B
+K
+
+Gerakan 42: P-bawah
+..IFFF
+GGI.AA
+LHH.DD
+LJJ.EE
+CCCP.B
+...P.B
+K
+
+Gerakan 43: P-bawah
+..IFFF
+GGI.AA
+LHH.DD
+LJJ.EE
+CCC..B
+...P.B
+P
+
+Gerakan 44: P-bawah
+..IFFF
+GGI.AA
+LHH.DD
+LJJ.EE
+CCC..B
+.....B
+P
+

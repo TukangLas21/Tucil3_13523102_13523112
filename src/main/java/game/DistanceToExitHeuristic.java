@@ -19,5 +19,4 @@ public class DistanceToExitHeuristic implements Heuristic {
             return Math.abs(state.getPrimaryPiece().getCoordinates().get(0).getRow() - state.getExitCoordinate().getRow());
         }
     }
-    
 }
