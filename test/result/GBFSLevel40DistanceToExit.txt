@@ -1,0 +1,1080 @@
+Papan Awal
+AAA..B
+.....B
+..CPPBK
+..CDEE
+F.GDHH
+F.GIII
+
+Gerakan 1: A-kanan
+.AAA.B
+.....B
+..CPPBK
+..CDEE
+F.GDHH
+F.GIII
+
+Gerakan 2: F-atas
+.AAA.B
+.....B
+..CPPBK
+F.CDEE
+F.GDHH
+..GIII
+
+Gerakan 3: F-atas
+.AAA.B
+.....B
+F.CPPBK
+F.CDEE
+..GDHH
+..GIII
+
+Gerakan 4: F-atas
+.AAA.B
+F....B
+F.CPPBK
+..CDEE
+..GDHH
+..GIII
+
+Gerakan 5: F-atas
+FAAA.B
+F....B
+..CPPBK
+..CDEE
+..GDHH
+..GIII
+
+Gerakan 6: C-atas
+FAAA.B
+F.C..B
+..CPPBK
+...DEE
+..GDHH
+..GIII
+
+Gerakan 7: G-atas
+FAAA.B
+F.C..B
+..CPPBK
+..GDEE
+..GDHH
+...III
+
+Gerakan 8: I-kiri
+FAAA.B
+F.C..B
+..CPPBK
+..GDEE
+..GDHH
+..III.
+
+Gerakan 9: I-kiri
+FAAA.B
+F.C..B
+..CPPBK
+..GDEE
+..GDHH
+.III..
+
+Gerakan 10: I-kiri
+FAAA.B
+F.C..B
+..CPPBK
+..GDEE
+..GDHH
+III...
+
+Gerakan 11: D-bawah
+FAAA.B
+F.C..B
+..CPPBK
+..G.EE
+..GDHH
+IIID..
+
+Gerakan 12: F-bawah
+.AAA.B
+F.C..B
+F.CPPBK
+..G.EE
+..GDHH
+IIID..
+
+Gerakan 13: F-bawah
+.AAA.B
+..C..B
+F.CPPBK
+F.G.EE
+..GDHH
+IIID..
+
+Gerakan 14: F-bawah
+.AAA.B
+..C..B
+..CPPBK
+F.G.EE
+F.GDHH
+IIID..
+
+Gerakan 15: E-kiri
+.AAA.B
+..C..B
+..CPPBK
+F.GEE.
+F.GDHH
+IIID..
+
+Gerakan 16: B-bawah
+.AAA..
+..C..B
+..CPPBK
+F.GEEB
+F.GDHH
+IIID..
+
+Gerakan 17: F-atas
+.AAA..
+..C..B
+F.CPPBK
+F.GEEB
+..GDHH
+IIID..
+
+Gerakan 18: F-atas
+.AAA..
+F.C..B
+F.CPPBK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 19: F-atas
+FAAA..
+F.C..B
+..CPPBK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 20: A-kanan
+F.AAA.
+F.C..B
+..CPPBK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 21: A-kanan
+F..AAA
+F.C..B
+..CPPBK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 22: C-atas
+F.CAAA
+F.C..B
+...PPBK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 23: P-kiri
+F.CAAA
+F.C..B
+..PP.BK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 24: P-kiri
+F.CAAA
+F.C..B
+.PP..BK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 25: P-kiri
+F.CAAA
+F.C..B
+PP...BK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 26: C-bawah
+F..AAA
+F.C..B
+PPC..BK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 27: A-kiri
+F.AAA.
+F.C..B
+PPC..BK
+..GEEB
+..GDHH
+IIID..
+
+Gerakan 28: B-atas
+F.AAAB
+F.C..B
+PPC..BK
+..GEE.
+..GDHH
+IIID..
+
+Gerakan 29: E-kanan
+F.AAAB
+F.C..B
+PPC..BK
+..G.EE
+..GDHH
+IIID..
+
+Gerakan 30: D-atas
+F.AAAB
+F.C..B
+PPC..BK
+..GDEE
+..GDHH
+III...
+
+Gerakan 31: I-kanan
+F.AAAB
+F.C..B
+PPC..BK
+..GDEE
+..GDHH
+.III..
+
+Gerakan 32: I-kanan
+F.AAAB
+F.C..B
+PPC..BK
+..GDEE
+..GDHH
+..III.
+
+Gerakan 33: I-kanan
+F.AAAB
+F.C..B
+PPC..BK
+..GDEE
+..GDHH
+...III
+
+Gerakan 34: G-bawah
+F.AAAB
+F.C..B
+PPC..BK
+...DEE
+..GDHH
+..GIII
+
+Gerakan 35: D-atas
+F.AAAB
+F.C..B
+PPCD.BK
+...DEE
+..G.HH
+..GIII
+
+Gerakan 36: H-kiri
+F.AAAB
+F.C..B
+PPCD.BK
+...DEE
+..GHH.
+..GIII
+
+Gerakan 37: G-atas
+F.AAAB
+F.C..B
+PPCD.BK
+..GDEE
+..GHH.
+...III
+
+Gerakan 38: I-kiri
+F.AAAB
+F.C..B
+PPCD.BK
+..GDEE
+..GHH.
+..III.
+
+Gerakan 39: I-kiri
+F.AAAB
+F.C..B
+PPCD.BK
+..GDEE
+..GHH.
+.III..
+
+Gerakan 40: I-kiri
+F.AAAB
+F.C..B
+PPCD.BK
+..GDEE
+..GHH.
+III...
+
+Gerakan 41: D-atas
+F.AAAB
+F.CD.B
+PPCD.BK
+..G.EE
+..GHH.
+III...
+
+Gerakan 42: H-kanan
+F.AAAB
+F.CD.B
+PPCD.BK
+..G.EE
+..G.HH
+III...
+
+Gerakan 43: I-kanan
+F.AAAB
+F.CD.B
+PPCD.BK
+..G.EE
+..G.HH
+.III..
+
+Gerakan 44: I-kanan
+F.AAAB
+F.CD.B
+PPCD.BK
+..G.EE
+..G.HH
+..III.
+
+Gerakan 45: I-kanan
+F.AAAB
+F.CD.B
+PPCD.BK
+..G.EE
+..G.HH
+...III
+
+Gerakan 46: E-kiri
+F.AAAB
+F.CD.B
+PPCD.BK
+..GEE.
+..G.HH
+...III
+
+Gerakan 47: H-kiri
+F.AAAB
+F.CD.B
+PPCD.BK
+..GEE.
+..GHH.
+...III
+
+Gerakan 48: I-kiri
+F.AAAB
+F.CD.B
+PPCD.BK
+..GEE.
+..GHH.
+..III.
+
+Gerakan 49: I-kiri
+F.AAAB
+F.CD.B
+PPCD.BK
+..GEE.
+..GHH.
+.III..
+
+Gerakan 50: B-bawah
+F.AAA.
+F.CD.B
+PPCD.BK
+..GEEB
+..GHH.
+.III..
+
+Gerakan 51: I-kiri
+F.AAA.
+F.CD.B
+PPCD.BK
+..GEEB
+..GHH.
+III...
+
+Gerakan 52: H-kanan
+F.AAA.
+F.CD.B
+PPCD.BK
+..GEEB
+..G.HH
+III...
+
+Gerakan 53: A-kanan
+F..AAA
+F.CD.B
+PPCD.BK
+..GEEB
+..G.HH
+III...
+
+Gerakan 54: I-kanan
+F..AAA
+F.CD.B
+PPCD.BK
+..GEEB
+..G.HH
+.III..
+
+Gerakan 55: I-kanan
+F..AAA
+F.CD.B
+PPCD.BK
+..GEEB
+..G.HH
+..III.
+
+Gerakan 56: I-kanan
+F..AAA
+F.CD.B
+PPCD.BK
+..GEEB
+..G.HH
+...III
+
+Gerakan 57: H-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+..GEEB
+..GHH.
+...III
+
+Gerakan 58: G-bawah
+F..AAA
+F.CD.B
+PPCD.BK
+...EEB
+..GHH.
+..GIII
+
+Gerakan 59: E-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+..EE.B
+..GHH.
+..GIII
+
+Gerakan 60: H-kanan
+F..AAA
+F.CD.B
+PPCD.BK
+..EE.B
+..G.HH
+..GIII
+
+Gerakan 61: E-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+.EE..B
+..G.HH
+..GIII
+
+Gerakan 62: E-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+EE...B
+..G.HH
+..GIII
+
+Gerakan 63: H-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+EE...B
+..GHH.
+..GIII
+
+Gerakan 64: G-atas
+F..AAA
+F.CD.B
+PPCD.BK
+EEG..B
+..GHH.
+...III
+
+Gerakan 65: I-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+EEG..B
+..GHH.
+..III.
+
+Gerakan 66: I-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+EEG..B
+..GHH.
+.III..
+
+Gerakan 67: I-kiri
+F..AAA
+F.CD.B
+PPCD.BK
+EEG..B
+..GHH.
+III...
+
+Gerakan 68: H-kanan
+F..AAA
+F.CD.B
+PPCD.BK
+EEG..B
+..G.HH
+III...
+
+Gerakan 69: D-bawah
+F..AAA
+F.C..B
+PPCD.BK
+EEGD.B
+..G.HH
+III...
+
+Gerakan 70: I-kanan
+F..AAA
+F.C..B
+PPCD.BK
+EEGD.B
+..G.HH
+.III..
+
+Gerakan 71: I-kanan
+F..AAA
+F.C..B
+PPCD.BK
+EEGD.B
+..G.HH
+..III.
+
+Gerakan 72: I-kanan
+F..AAA
+F.C..B
+PPCD.BK
+EEGD.B
+..G.HH
+...III
+
+Gerakan 73: D-bawah
+F..AAA
+F.C..B
+PPC..BK
+EEGD.B
+..GDHH
+...III
+
+Gerakan 74: G-bawah
+F..AAA
+F.C..B
+PPC..BK
+EE.D.B
+..GDHH
+..GIII
+
+Gerakan 75: E-kanan
+F..AAA
+F.C..B
+PPC..BK
+.EED.B
+..GDHH
+..GIII
+
+Gerakan 76: C-atas
+F.CAAA
+F.C..B
+PP...BK
+.EED.B
+..GDHH
+..GIII
+
+Gerakan 77: P-kanan
+F.CAAA
+F.C..B
+.PP..BK
+.EED.B
+..GDHH
+..GIII
+
+Gerakan 78: P-kanan
+F.CAAA
+F.C..B
+..PP.BK
+.EED.B
+..GDHH
+..GIII
+
+Gerakan 79: P-kanan
+F.CAAA
+F.C..B
+...PPBK
+.EED.B
+..GDHH
+..GIII
+
+Gerakan 80: E-kiri
+F.CAAA
+F.C..B
+...PPBK
+EE.D.B
+..GDHH
+..GIII
+
+Gerakan 81: G-atas
+F.CAAA
+F.C..B
+...PPBK
+EEGD.B
+..GDHH
+...III
+
+Gerakan 82: I-kiri
+F.CAAA
+F.C..B
+...PPBK
+EEGD.B
+..GDHH
+..III.
+
+Gerakan 83: P-kiri
+F.CAAA
+F.C..B
+..PP.BK
+EEGD.B
+..GDHH
+..III.
+
+Gerakan 84: P-kiri
+F.CAAA
+F.C..B
+.PP..BK
+EEGD.B
+..GDHH
+..III.
+
+Gerakan 85: D-atas
+F.CAAA
+F.C..B
+.PPD.BK
+EEGD.B
+..G.HH
+..III.
+
+Gerakan 86: F-bawah
+..CAAA
+F.C..B
+FPPD.BK
+EEGD.B
+..G.HH
+..III.
+
+Gerakan 87: I-kiri
+..CAAA
+F.C..B
+FPPD.BK
+EEGD.B
+..G.HH
+.III..
+
+Gerakan 88: I-kiri
+..CAAA
+F.C..B
+FPPD.BK
+EEGD.B
+..G.HH
+III...
+
+Gerakan 89: D-atas
+..CAAA
+F.CD.B
+FPPD.BK
+EEG..B
+..G.HH
+III...
+
+Gerakan 90: H-kiri
+..CAAA
+F.CD.B
+FPPD.BK
+EEG..B
+..GHH.
+III...
+
+Gerakan 91: B-bawah
+..CAAA
+F.CD..
+FPPD.BK
+EEG..B
+..GHHB
+III...
+
+Gerakan 92: F-atas
+F.CAAA
+F.CD..
+.PPD.BK
+EEG..B
+..GHHB
+III...
+
+Gerakan 93: B-bawah
+F.CAAA
+F.CD..
+.PPD..K
+EEG..B
+..GHHB
+III..B
+
+Gerakan 94: I-kanan
+F.CAAA
+F.CD..
+.PPD..K
+EEG..B
+..GHHB
+.III.B
+
+Gerakan 95: P-kiri
+F.CAAA
+F.CD..
+PP.D..K
+EEG..B
+..GHHB
+.III.B
+
+Gerakan 96: G-atas
+F.CAAA
+F.CD..
+PPGD..K
+EEG..B
+...HHB
+.III.B
+
+Gerakan 97: I-kanan
+F.CAAA
+F.CD..
+PPGD..K
+EEG..B
+...HHB
+..IIIB
+
+Gerakan 98: H-kiri
+F.CAAA
+F.CD..
+PPGD..K
+EEG..B
+..HH.B
+..IIIB
+
+Gerakan 99: H-kiri
+F.CAAA
+F.CD..
+PPGD..K
+EEG..B
+.HH..B
+..IIIB
+
+Gerakan 100: I-kiri
+F.CAAA
+F.CD..
+PPGD..K
+EEG..B
+.HH..B
+.III.B
+
+Gerakan 101: I-kiri
+F.CAAA
+F.CD..
+PPGD..K
+EEG..B
+.HH..B
+III..B
+
+Gerakan 102: H-kanan
+F.CAAA
+F.CD..
+PPGD..K
+EEG..B
+..HH.B
+III..B
+
+Gerakan 103: D-bawah
+F.CAAA
+F.C...
+PPGD..K
+EEGD.B
+..HH.B
+III..B
+
+Gerakan 104: I-kanan
+F.CAAA
+F.C...
+PPGD..K
+EEGD.B
+..HH.B
+.III.B
+
+Gerakan 105: B-atas
+F.CAAA
+F.C...
+PPGD.BK
+EEGD.B
+..HH.B
+.III..
+
+Gerakan 106: I-kanan
+F.CAAA
+F.C...
+PPGD.BK
+EEGD.B
+..HH.B
+..III.
+
+Gerakan 107: I-kanan
+F.CAAA
+F.C...
+PPGD.BK
+EEGD.B
+..HH.B
+...III
+
+Gerakan 108: H-kanan
+F.CAAA
+F.C...
+PPGD.BK
+EEGD.B
+...HHB
+...III
+
+Gerakan 109: D-atas
+F.CAAA
+F.CD..
+PPGD.BK
+EEG..B
+...HHB
+...III
+
+Gerakan 110: B-atas
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+...HH.
+...III
+
+Gerakan 111: I-kiri
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+...HH.
+..III.
+
+Gerakan 112: I-kiri
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+...HH.
+.III..
+
+Gerakan 113: I-kiri
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+...HH.
+III...
+
+Gerakan 114: H-kiri
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+..HH..
+III...
+
+Gerakan 115: H-kiri
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+.HH...
+III...
+
+Gerakan 116: I-kanan
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+.HH...
+.III..
+
+Gerakan 117: I-kanan
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+.HH...
+..III.
+
+Gerakan 118: H-kiri
+F.CAAA
+F.CD.B
+PPGD.BK
+EEG..B
+HH....
+..III.
+
+Gerakan 119: G-bawah
+F.CAAA
+F.CD.B
+PP.D.BK
+EEG..B
+HHG...
+..III.
+
+Gerakan 120: P-kanan
+F.CAAA
+F.CD.B
+.PPD.BK
+EEG..B
+HHG...
+..III.
+
+Gerakan 121: I-kanan
+F.CAAA
+F.CD.B
+.PPD.BK
+EEG..B
+HHG...
+...III
+
+Gerakan 122: G-bawah
+F.CAAA
+F.CD.B
+.PPD.BK
+EE...B
+HHG...
+..GIII
+
+Gerakan 123: F-bawah
+..CAAA
+F.CD.B
+FPPD.BK
+EE...B
+HHG...
+..GIII
+
+Gerakan 124: D-bawah
+..CAAA
+F.C..B
+FPPD.BK
+EE.D.B
+HHG...
+..GIII
+
+Gerakan 125: D-bawah
+..CAAA
+F.C..B
+FPP..BK
+EE.D.B
+HHGD..
+..GIII
+
+Gerakan 126: P-kanan
+..CAAA
+F.C..B
+F.PP.BK
+EE.D.B
+HHGD..
+..GIII
+
+Gerakan 127: P-kanan
+..CAAA
+F.C..B
+F..PPBK
+EE.D.B
+HHGD..
+..GIII
+
+Gerakan 128: B-bawah
+..CAAA
+F.C...
+F..PPBK
+EE.D.B
+HHGD.B
+..GIII
+
+Gerakan 129: G-atas
+..CAAA
+F.C...
+F..PPBK
+EEGD.B
+HHGD.B
+...III
+
+Gerakan 130: I-kiri
+..CAAA
+F.C...
+F..PPBK
+EEGD.B
+HHGD.B
+..III.
+
+Gerakan 131: B-bawah
+..CAAA
+F.C...
+F..PP.K
+EEGD.B
+HHGD.B
+..IIIB
+
+Gerakan 132: P-kanan
+..CAAA
+F.C...
+F...PPK
+EEGD.B
+HHGD.B
+..IIIB
+
+Gerakan 133: P-kanan
+..CAAA
+F.C...
+F....PP
+EEGD.B
+HHGD.B
+..IIIB
+
+Gerakan 134: P-kanan
+..CAAA
+F.C...
+F.....P
+EEGD.B
+HHGD.B
+..IIIB
+

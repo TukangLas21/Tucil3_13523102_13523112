@@ -1,0 +1,198 @@
+Papan Awal
+K
+......
+......
+AAAC..
+...C..
+..PC..
+..PBBB
+
+Gerakan 1: C-atas
+K
+......
+...C..
+AAAC..
+...C..
+..P...
+..PBBB
+
+Gerakan 2: C-atas
+K
+...C..
+...C..
+AAAC..
+......
+..P...
+..PBBB
+
+Gerakan 3: P-atas
+K
+...C..
+...C..
+AAAC..
+..P...
+..P...
+...BBB
+
+Gerakan 4: C-bawah
+K
+......
+...C..
+AAAC..
+..PC..
+..P...
+...BBB
+
+Gerakan 5: C-bawah
+K
+......
+......
+AAAC..
+..PC..
+..PC..
+...BBB
+
+Gerakan 6: B-kiri
+K
+......
+......
+AAAC..
+..PC..
+..PC..
+..BBB.
+
+Gerakan 7: C-atas
+K
+......
+...C..
+AAAC..
+..PC..
+..P...
+..BBB.
+
+Gerakan 8: C-atas
+K
+...C..
+...C..
+AAAC..
+..P...
+..P...
+..BBB.
+
+Gerakan 9: B-kiri
+K
+...C..
+...C..
+AAAC..
+..P...
+..P...
+.BBB..
+
+Gerakan 10: C-bawah
+K
+......
+...C..
+AAAC..
+..PC..
+..P...
+.BBB..
+
+Gerakan 11: C-bawah
+K
+......
+......
+AAAC..
+..PC..
+..PC..
+.BBB..
+
+Gerakan 12: B-kiri
+K
+......
+......
+AAAC..
+..PC..
+..PC..
+BBB...
+
+Gerakan 13: C-bawah
+K
+......
+......
+AAA...
+..PC..
+..PC..
+BBBC..
+
+Gerakan 14: A-kanan
+K
+......
+......
+.AAA..
+..PC..
+..PC..
+BBBC..
+
+Gerakan 15: A-kanan
+K
+......
+......
+..AAA.
+..PC..
+..PC..
+BBBC..
+
+Gerakan 16: A-kanan
+K
+......
+......
+...AAA
+..PC..
+..PC..
+BBBC..
+
+Gerakan 17: P-atas
+K
+......
+......
+..PAAA
+..PC..
+...C..
+BBBC..
+
+Gerakan 18: P-atas
+K
+......
+..P...
+..PAAA
+...C..
+...C..
+BBBC..
+
+Gerakan 19: P-atas
+K
+..P...
+..P...
+...AAA
+...C..
+...C..
+BBBC..
+
+Gerakan 20: P-atas
+P
+..P...
+......
+...AAA
+...C..
+...C..
+BBBC..
+
+Gerakan 21: P-atas
+P
+......
+......
+...AAA
+...C..
+...C..
+BBBC..
+
